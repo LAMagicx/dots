@@ -1,0 +1,111 @@
+env:
+  TERM: alacritty
+
+window:
+  dimensions:
+    columns: 0
+    lines: 0
+
+  position:
+    x: 0
+    y: 0
+
+  padding:
+    x: 3
+    y: 3
+  
+  title: Term
+  dynamic_title: true
+
+  class:
+    instance: Alacritty
+    general: Alacritty
+
+scrolling:
+  history: 10000
+  multiplier: 3
+
+font:
+  normal:
+    family: monospace
+    style: Regular
+  bold:
+    family: monospace
+    style: Bold 
+  italic:
+    family: monospace
+    style: Italic
+  bold_italic:
+    family: monospace
+    style: Bold Italic
+
+  size: 9.0
+
+  offset:
+    x: 0
+    y: 0
+
+colors:
+  primary:
+    background: '#292929'
+    foreground: '#a2a2a2'
+  focused_match:
+    foreground: CellBackground
+    background: CellForeground
+
+  bar:
+    background: '#c5c8c6'
+    foreground: '#1d1f21'
+
+  line_indicator:
+    foreground: None
+    background: None
+  
+  selection:
+    text: CellBackground
+    background: CellForeground
+
+  normal:
+    black: '#4e4e4e'
+    red: '#a9635d'
+    green: '#468459'
+    yellow: '#84763d'
+    blue: '#5879af'
+    magenta: '#9c6594'
+    cyan: '#008592'
+    white: '#cfcfcf'
+
+  bright:
+    black: '#777777'
+    red: '#ffbbb2'
+    green: '#9ddeaf'
+    yellow: '#e0ce91'
+    blue: '#b3d1ff'
+    magenta: '#fabdf0'
+    cyan: '#79e0ed'
+    white: '#ffffff'
+
+bell:
+  duration: 0
+
+background_opacity: 0.8
+
+
+cursor:
+  style:
+    shape: Underline
+  blinking: Off
+  vi_mode_style: Underline
+  blink_interval: 750
+  thickness: 0.2
+
+
+live_config_reload: true
+
+shell:
+  program: /bin/zsh
+
+mouse:
+  hide_when_typing: true
+
+
