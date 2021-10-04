@@ -17,6 +17,10 @@ local menubar = require("menubar")
 local hotkeys_popup = require("awful.hotkeys_popup")
 require("awful.hotkeys_popup.keys")
 
+require("widgets.volume")
+
+
+
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
 -- another config (This code will only ever execute for the fallback config)
@@ -46,9 +50,13 @@ end
 -- Themes define colours, icons, font and wallpapers.
 local theme_path = string.format("%s/.config/awesome/themes/%s/theme.lua", os.getenv("HOME"), "awesome-theme")
 beautiful.init(theme_path)
+
 terminal = "kitty"
 editor = os.getenv("EDITOR") or "vim"
 browser = "firefox"
+browser2 = "chromium"
+music = "spotify"
+launcher = "rofi -modi combi -show combi"
 editor_cmd = terminal .. " -e " .. editor
 
 modkey = "Mod4"
@@ -72,6 +80,30 @@ globalkeys = gears.table.join(
             {description = "view previous", group = "tag"}),
     awful.key({ modkey }, "Right",  awful.tag.viewnext,
             {description = "view next", group = "tag"}),
+    awful.key({ altkey }, "h",   awful.tag.viewprev,
+            {description = "view previous", group = "tag"}),
+    awful.key({ altkey }, "l",  awful.tag.viewnext,
+            {description = "view next", group = "tag"}),
+    awful.key({ altkey, shift }, "h", function ()
+                local t = client.focus and client.focus.first_tag or nil
+                if t == nil then
+                    return
+                end
+                local tag = client.focus.screen.tags[(t.index - 2) % 5 + 1]
+                awful.client.movetotag(tag)
+                awful.tag.viewprev()
+            end,
+            {description = "move client to prev tag", group="client"}),
+    awful.key({ altkey, shift }, "l", function ()
+                local t = client.focus and client.focus.first_tag or nil
+                if t == nil then
+                    return
+                end
+                local tag = client.focus.screen.tags[(t.index % 5) + 1]
+                awful.client.movetotag(tag)
+                awful.tag.viewnext()
+            end,
+            {description = "move client to next tag", group = "client"}),
     awful.key({ modkey }, "k", function () awful.client.focus.bydirection("up") end,
             {description = "focus up", group = "client"}),
     awful.key({ modkey }, "j", function () awful.client.focus.bydirection("down") end,
@@ -111,7 +143,7 @@ globalkeys = gears.table.join(
             end
          end,
          {description = "toggle wibox", group = "awesome"}),
-    awful.key({ modkey, shift}, "s", function() awful.spawn.with_shell("scrot '%d-%m_capture.png' -sfz -e 'python ~/Images/imager.py %d-%m_capture.png'") end,
+    awful.key({ modkey, shift}, "s", function() awful.spawn.with_shell("scrot '%d-%m_capture.png' -sfz -e 'python ~/Pictures/imager.py %d-%m_capture.png'") end,
             {description = "screenshot", group="awesome"}),
 
     awful.key({ modkey }, "z", function () awful.spawn(terminal) end,
@@ -135,8 +167,42 @@ globalkeys = gears.table.join(
                   end
               end,
               {description = "restore minimized", group = "client"}),
-    awful.key({ modkey },            "r",     function () awful.screen.focused().mypromptbox:run() end,
-              {description = "run prompt", group = "launcher"})
+    -- awful.key({ modkey },            "r",     function () awful.screen.focused().mypromptbox:run() end,
+    --           {description = "run prompt", group = "launcher"}),
+    awful.key({ }, "XF86AudioMute", function() awful.spawn("amixer sset Master toggle") end,
+              {description = "mute audio", group = "awesome"}),
+    awful.key({ }, "XF86AudioPlay", function() awful.spawn("playerctl play-pause") end,
+              {description = "toggle audio", group = "awesome"}),
+    awful.key({ }, "XF86AudioRaiseVolume", function() awful.spawn("amixer set Master 5%+") end,
+              {description = "increase volume", group = "awesome"}),
+    awful.key({ }, "XF86AudioLowerVolume", function() awful.spawn("amixer set Master 5%-") end,
+              {description = "decrease volume", group = "awesome"}),
+    awful.key({ modkey }, "XF86AudioRaiseVolume", function() awful.spawn("playerctl next") end,
+              {description = "next track", group = "awesome"}),
+    awful.key({ modkey }, "XF86AudioLowerVolume", function() awful.spawn("playerctl previous") end,
+              {description = "prev track", group = "awesome"}),
+    awful.key({ }, "XF86AudioNext", function() awful.spawn("playerctl next") end,
+              {description = "next track", group = "awesome"}),
+    awful.key({ }, "XF86AudioPrev", function() awful.spawn("playerctl previous") end,
+              {description = "prev tracl", group = "awesome"}),
+    awful.key({ }, "XF86MonBrightnessUp", function() awful.spawn("backlight_control +5") end,
+              {description = "brightness +5%", group = "awesome"}),
+    awful.key({ }, "XF86MonBrightnessDown", function() awful.spawn("backlight_control -5") end,
+              {description = "brightness -5%", group = "awesome"}),
+    awful.key({ modkey }, "f", function() awful.spawn(browser) end,
+              {description = "open browser", group = "launcher"}),
+    awful.key({ modkey }, "p", function() awful.spawn(music) end,
+              {description = "open spotify", group = "launcher"}),
+    awful.key({ modkey }, "d", function() awful.spawn("discord") end,
+              {description = "open spotify", group = "launcher"}),
+    awful.key({ modkey , "Shift" }, "f", function() awful.spawn(browser2) end,
+              {description = "open browser 2", group = "launcher"}),
+    awful.key({ modkey }, "r", function()
+            awful.spawn.with_shell("rofi -combi-modi window,drun,ssh,filebrowser -show combi -icon-theme 'Tela-circle-blue' -show-icons")
+            end,
+              {description = "run menu", group = "launcher"}),
+    awful.key({ modkey, "Control" }, "Tab", function() awful.spawn.with_shell("rofi -show window") end,
+              {description = "run menu", group = "launcher"})
 )
 
 clientkeys = gears.table.join(
@@ -418,6 +484,11 @@ end
 screen.connect_signal("property::geometry", set_wallpaper)
 -- Re-set wallpaper when a screen's geometry changes (e.g. different resolution)
 screen.connect_signal("property::geometry", set_wallpaper)
+
+function toggle(s)
+    s.visible = not s.visible
+end
+
 awful.screen.connect_for_each_screen(function(s)
 	-- Wallpaper
 	set_wallpaper(s)
@@ -446,46 +517,59 @@ awful.screen.connect_for_each_screen(function(s)
 	s.mytasklist = awful.widget.tasklist {
 		screen  = s,
 		filter  = awful.widget.tasklist.filter.currenttags,
-		buttons = tasklist_buttons
+		buttons = tasklist_buttons,
+        width = s.geometry.width/2
 	}
 		
 	-- Create a systray widget
 	s.systray = wibox.widget.systray()
 	s.systray.visible = false
 
+
 	-- Create the wibox
-		
-	function custom_shape(cr,width,height)
-			gears.shape.rounded_rect(cr,width,height, 5)
-	end
-		
-    s.mywibox = awful.wibar({position="top", screen = s ,bg="#000000aa", visible=true}) 
-    --[[
-    local timer = require("gears.timer")
-    local dock_trigger = wibox({bg = "#00000000", opacity = 0, ontop = true, visible = true, position = "top"})
-    local dock_hide_timer = timer({ timeout = 1})
 
-    dock_hide_timer:connect_signal("timeout", function() s.mywibox.visible = false; dock_hide_timer:stop() end )
+    s.mywibox = awful.wibox({
+		ontop = true,
+        screen = s ,
+        bg="#030303dd",
+        visible=false
+    }) 
 
-    dock_trigger:connect_signal("mouse::enter", function() s.mywibox.visible = true end)
-    s.mywibox:connect_signal("mouse::enter", function() if dock_hide_timer.started then dock_hide_timer:stop() end end)
-    s.mywibox:connect_signal("mouse::leave", function() dock_hide_timer:start() end)
-    --]]
+    s.backdrop = awful.wibox({
+		 ontop = true,
+         visible = true,
+         screen = s,
+         bg = "#000000",
+         type = 'utility',
+         x = s.geometry.x,
+         y = 25,
+         width = s.geometry.width,
+         height = 25
+    })
+
+    local backdrop_hide_timer = timer({ timeout = 1})
+    s.backdrop:geometry({ width = s.workarea.width, height = 1 })
+    backdrop_hide_timer:connect_signal("timeout", function() s.mywibox.visible = false; backdrop_hide_timer:stop() end )
+
+    s.backdrop:connect_signal("mouse::enter", function() s.mywibox.visible = true end)
+    s.mywibox:connect_signal("mouse::enter", function() if backdrop_hide_timer.started then backdrop_hide_timer:stop() end end)
+    s.mywibox:connect_signal("mouse::leave", function() backdrop_hide_timer:again() end)
+
+    
+
     s.mywibox:setup {
         layout = wibox.layout.align.horizontal,
         { --left widgets
             layout = wibox.layout.align.horizontal,
             mylauncher,
             s.mytaglist,
-            s.mypromptbox,
+            s.mypromptbox
         },
         s.mytasklist,
         {--right widgets
             layout = wibox.layout.align.horizontal,
-            wibox.widget.systray(),
             mykeyboardlayout, 
             wibox.widget.textclock(),
-            s.mylayoutbox,
         },
     }
 end)
@@ -553,7 +637,18 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 -- }}}
 
 -- {{{ Autostart
-awful.util.spawn_with_shell('~/.autostart')
--- }}}
+autorun = true
+autorunApps =
+{
+   "~/.autostart &",
+   "picom",
+   "gb"
+   
+}
+if autorun then
+   for app = 1, #autorunApps do
+       awful.util.spawn_with_shell(autorunApps[app])
+   end
+end-- }}}
 
 -- " vim:foldmethod=marker:foldlevel=0
