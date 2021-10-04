@@ -1,0 +1,31 @@
+snippet Program "create a new program"
+Programme $1
+Variables :
+	$2
+Debut
+	$3
+Fin
+endsnippet
+
+snippet Si "Condition"
+Si ($1) Alors
+	$2
+$3
+FinSi
+endsnippet
+
+snippet Sinon "Condition"
+Sinon ($1) Alors
+	$2
+$3
+endsnippet
+
+snippet Selon "Switch"
+Selon ($1)
+	Cas $2 :
+		$3
+	$4
+	Default :
+		$0
+FinSelon
+endsnippet

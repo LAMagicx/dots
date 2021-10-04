@@ -1,0 +1,12 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhistcnt =0
+let g:netrw_dirhist_0='/home/magic/.config/rofi'
+let g:netrw_dirhist_9='/home/magic/.vim/bundle/vimsence'
+let g:netrw_dirhist_8='/home/magic/.config'
+let g:netrw_dirhist_7='/mnt/HDD/Files/OpenGl/flow/src'
+let g:netrw_dirhist_6='/mnt/HDD/Gits/Mine/HomeSite/pages/functions'
+let g:netrw_dirhist_5='/mnt/HDD/Gits/Mine/HomeSite/pages/static/css'
+let g:netrw_dirhist_4='/home/magic/.config/kitty'
+let g:netrw_dirhist_3='/home/magic/Gits/Mine/site-web-jeux/pages/views'
+let g:netrw_dirhist_2='/home/magic/Gits/Mine/site-web-jeux/pages'
+let g:netrw_dirhist_1='/home/magic/Gits/Mine/site-web-jeux/pages/views'
