@@ -72,9 +72,6 @@ source /home/magic/.zsh_files/sources.zsh
 # adds error if moved ?>
 zmodload zsh/terminfo
 
-export SPOTIPY_CLIENT_ID='731f4689da5949d097cf689120d8e69a'
-export SPOTIPY_CLIENT_SECRET='485d10cb7bc54ee0985aa566350ace36'
-export SPOTIPY_REDIRECT_URI='http://127.0.0.1:5555'
 
 
 # eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
