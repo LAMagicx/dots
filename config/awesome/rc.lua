@@ -51,10 +51,12 @@ end
 local theme_path = string.format("%s/.config/awesome/themes/%s/theme.lua", os.getenv("HOME"), "awesome-theme")
 beautiful.init(theme_path)
 
+floating_terminal = "kitty --class=floating"
 terminal = "kitty"
 editor = os.getenv("EDITOR") or "vim"
 browser = "firefox"
 browser2 = "chromium"
+browser3 = "qutebrowser"
 music = "spotify"
 launcher = "rofi -modi combi -show combi"
 editor_cmd = terminal .. " -e " .. editor
@@ -148,6 +150,8 @@ globalkeys = gears.table.join(
 
     awful.key({ modkey }, "z", function () awful.spawn(terminal) end,
             {description = "open terminal", group="launcher"}),
+    awful.key({ modkey , shift }, "z", function () awful.spawn(floating_terminal) end,
+            {description = "open terminal", group="launcher"}),
     awful.key({ modkey, "Control" }, "r", awesome.restart,
               {description = "reload awesome", group = "awesome"}),
     awful.key({ modkey, "Shift"   }, "q", awesome.quit,
@@ -197,6 +201,8 @@ globalkeys = gears.table.join(
               {description = "open spotify", group = "launcher"}),
     awful.key({ modkey , "Shift" }, "f", function() awful.spawn(browser2) end,
               {description = "open browser 2", group = "launcher"}),
+    awful.key({ modkey }, "q", function() awful.spawn(browser3) end,
+              {description = "open qutebrowser", group = "launcher"}),
     awful.key({ modkey }, "r", function()
             awful.spawn.with_shell("rofi -combi-modi window,drun,ssh,filebrowser -show combi -icon-theme 'Tela-circle-blue' -show-icons")
             end,
@@ -343,7 +349,9 @@ awful.rules.rules = {
                      keys = clientkeys,
                      buttons = clientbuttons,
                      screen = awful.screen.preferred,
-                     placement = awful.placement.no_overlap+awful.placement.no_offscreen
+                     placement = awful.placement.centered+awful.placement.no_overlap+awful.placement.no_offscreen
+
+                     -- placement = awful.placement.no_overlap+awful.placement.no_offscreen
      }
     },
 
@@ -353,18 +361,22 @@ awful.rules.rules = {
           "DTA",  -- Firefox addon DownThemAll.
           "copyq",  -- Includes session name in class.
           "pinentry",
+          "floating",
         },
         class = {
-          "Arandr",
-          "Blueman-manager",
-          "Gpick",
-          "Kruler",
-          "MessageWin",  -- kalarm.
-          "Sxiv",
-          "Tor Browser", -- Needs a fixed window size to avoid fingerprinting by screen size.
-          "Wpa_gui",
-          "veromix",
-          "xtightvncviewer"},
+            "feh",
+            "floating",
+            "Pavucontrol",  
+            "Arandr",
+            "Blueman-manager",
+            "Gpick",
+            "Kruler",
+            "MessageWin",  -- kalarm.
+            "Sxiv",
+            "Tor Browser", -- Needs a fixed window size to avoid fingerprinting by screen size.
+            "Wpa_gui",
+            "veromix",
+            "xtightvncviewer"},
 
         -- Note that the name property shown in xprop might be set slightly after creation of the client
         -- and the name shown there might not match defined rules here.
