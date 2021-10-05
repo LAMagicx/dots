@@ -50,7 +50,7 @@ call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
-Plugin 'ycm-core/YouCompleteMe'
+"Plugin 'ycm-core/YouCompleteMe'
 "Plugin 'ap/vim-css-color'
 Plugin 'chrisbra/Colorizer' " SLOW!!
 "Plugin 'lilydjwg/colorizer'
