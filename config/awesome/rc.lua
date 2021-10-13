@@ -51,7 +51,7 @@ end
 local theme_path = string.format("%s/.config/awesome/themes/%s/theme.lua", os.getenv("HOME"), "awesome-theme")
 beautiful.init(theme_path)
 
-floating_terminal = "kitty --class=floating"
+floating_terminal = "kitty --class=floating --config /home/magic/.config/kitty/no-opacity.conf"
 terminal = "kitty"
 editor = os.getenv("EDITOR") or "vim"
 browser = "firefox"
@@ -66,11 +66,12 @@ altkey = "Mod1"
 shift = "Shift"
 ctrl = "Control"
 
+
 awful.layout.layouts = {
     awful.layout.suit.tile,
     awful.layout.suit.floating,
-    --awful.layout.suit.max.fullscreen,
-    --awful.layout.suit.corner.nw,
+    awful.layout.suit.max.fullscreen,
+    awful.layout.suit.corner.nw,
 }
 -- }}}
 
@@ -171,11 +172,11 @@ globalkeys = gears.table.join(
                   end
               end,
               {description = "restore minimized", group = "client"}),
-    -- awful.key({ modkey },            "r",     function () awful.screen.focused().mypromptbox:run() end,
-    --           {description = "run prompt", group = "launcher"}),
+    awful.key({ modkey, "Shift" },"r", function () awful.screen.focused().mypromptbox:run() end,
+              {description = "run prompt", group = "launcher"}),
     awful.key({ }, "XF86AudioMute", function() awful.spawn("amixer sset Master toggle") end,
               {description = "mute audio", group = "awesome"}),
-    awful.key({ }, "XF86AudioPlay", function() awful.spawn("playerctl play-pause") end,
+    awful.key({ }, "XF86AudioPlay", function() awful.spawn("volpause &") end,
               {description = "toggle audio", group = "awesome"}),
     awful.key({ }, "XF86AudioRaiseVolume", function() awful.spawn("amixer set Master 5%+") end,
               {description = "increase volume", group = "awesome"}),
@@ -208,7 +209,11 @@ globalkeys = gears.table.join(
             end,
               {description = "run menu", group = "launcher"}),
     awful.key({ modkey, "Control" }, "Tab", function() awful.spawn.with_shell("rofi -show window") end,
-              {description = "run menu", group = "launcher"})
+              {description = "run menu", group = "launcher"}),
+            awful.key({ modkey, "Control" }, "=", function () awful.tag.incgap (5) end,
+			{description = "increase gaps", group = "client"}),
+			awful.key({ modkey, "Control" }, "-", function () awful.tag.incgap (-5) end,
+			{description = "decrease gaps", group = "client"})
 )
 
 clientkeys = gears.table.join(
@@ -362,6 +367,8 @@ awful.rules.rules = {
           "copyq",  -- Includes session name in class.
           "pinentry",
           "floating",
+          "lxappearance", 
+          "nm-connection-editor",
         },
         class = {
             "feh",
@@ -603,6 +610,11 @@ client.connect_signal("manage", function (c)
 		-- Prevent clients from being unreachable after screen count changes.
 		awful.placement.no_offscreen(c)
 	end
+    if c.floating then
+        c.shape = function(cr, w, h)
+            gears.shape.rounded_rect(cr, w, h, 10)
+        end
+    end
 end)
 
 -- Add a titlebar if titlebars_enabled is set to true in the rules.
