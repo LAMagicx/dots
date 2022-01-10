@@ -1,0 +1,53 @@
+/*! 
+  \file tp4.c
+  \author Samson Grice <gricemagic@cy-tech.fr>
+  \version 0.1
+  \date 22-11-21
+  \brief DESCRIPTION
+  \remarks REMARKS
+*/
+#include "pi.h"
+#include "sq2.h"
+
+/*! 
+  \fn main
+  \author Samson Grice <gricemagic@cy-tech.fr>
+  \version 0.1
+  \date 22-11-21
+  \brief main function
+  \return type int
+  \param argc of type int
+  \param argv of type char **
+*/
+int main(int argc, char ** argv) {
+    if (argv){
+        printf("%s\n", argc[argv-1]);
+        // stop warnings on Linux
+    }
+
+	int p;
+	long int n;
+
+	printf("Choose what you would like to approximate:\npi: 1\nsqrt(2): 2\n > ");
+	scanf("%d", &p);
+	printf("How many iterations? (max : %s)\n > ", (p==1)?"10^9":"805");
+	scanf("%ld", &n);
+	srand(time(0));
+	switch (p) {
+		case (1) :
+			printf("pi random  : %.500g\n",pi_random(n));
+			printf("pi madhava : %.500g\n",pi_madhava(n));
+			printf("pi john    : %.500g\n",pi_john(n));
+			printf("pi real    : %.500g\n",3.141592653589793238462643383279502884197169399375105820974944592307816406286208998628340825342117067998);
+			break;
+		case (2) :
+			printf("sq2 newton : %.500g\n",sq2_newton(n));
+			printf("sq2 halley : %.500g\n",sq2_halley(n));
+			printf("sq2 smyrne : %.500g\n",sq2_smyrne(n));
+			break;
+		default :
+			printf("Neither 1 or 2\ntry again\n");
+			break;
+	}
+	return 0;
+}

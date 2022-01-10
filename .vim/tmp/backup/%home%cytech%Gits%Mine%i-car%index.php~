@@ -1,0 +1,157 @@
+<?php
+session_start();
+// efface la session
+if (isset($_POST["OUT"]))
+{
+    session_destroy();
+}
+$connection_erreur = False;
+if (isset($_GET["erreur"]))
+{
+    $connection_erreur = True;
+}else{
+    //Vérifie si il y a un numero de contrat en methode get
+    if (isset($_GET["numeroContrat"]))
+    {
+        $contrat_exist = True;
+        $numero_existe = 0;
+        if (($handle = fopen("csv/contrats.csv", "r")))
+        {
+            while (($data = fgetcsv($handle, 1000, ";")))
+            {
+                if ($data[0] == $_GET["numeroContrat"])
+                {
+                    $numeroCarteVerte = $data[4];
+                    $numero_existe = 1;
+                }
+            }
+            fclose($handle);
+        }
+        if ($numero_existe == 1)
+        {
+            if (($handle = fopen("csv/cartesVertes.csv", "r")))
+            {
+                $cartevert_exists = False;
+                while (($data = fgetcsv($handle, 1000, ";")))
+                {
+                    if ($data[0] == $numeroCarteVerte)
+                    {
+                        $cartevert_exists = True;
+                        $dateDeb = explode("-", $data[1]);
+                        $annee = $dateDeb[0] + 1;
+                        $dateFin = $annee . "-" . $dateDeb[1] . "-" . $dateDeb[2];
+                        $numeroContrat = $_GET['numeroContrat'];
+                        $codeAssureur = $data[4];
+                    }
+                }
+                fclose($handle);
+            }
+            if (($handle = fopen("csv/assureurs.csv", "r")))
+            {
+                $assureur_existe = False;
+                while (($data2 = fgetcsv($handle, 1000, ";")))
+                {
+                    if ($data2[0] == $codeAssureur)
+                    {
+                        $assureur_existe = True;
+                    }
+                }
+                fclose($handle);
+            }
+        }
+    }
+}
+?>
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+	<title>I-Car</title>
+    <link rel="icon" type="image/png" href="./img/icon.png">
+    <link rel="stylesheet" type="text/css" href="css/designGlobal.css" />
+    <link rel="stylesheet" type="text/css" href="css/pageConnexion.css" />
+    <link rel="stylesheet" type="text/css" href="css/form.css" />
+</head>
+<body>
+	<div class="contenu">
+        <div id='background_img'></div>
+        <img src="./img/icon.png"/>
+        <?php if (!$connection_erreur){ ?>
+            <?php if (!$contrat_exist) {?>
+                <h1>Bienvenue sur I-Car</h1>
+                <div style='margin-bottom: 20px; font-size: 1.3em'>Bonjour, bienvenue sur I-Car. Si vous avez un compte vous pouvez vous connecter ci-dessous.</div>
+            <?php }else{ ?>
+                <?php if ($numero_existe == 1){ ?>
+                    <h2>Voici les informations de la carte verte scannée : </h2>
+                    <?php if ($cartevert_exists) {?>
+                        <div class='divCarteVerte'>
+                            <div class='headerCarteVerte'>
+                                <p>CERTIFICAT  D'ASSURANCE</p>
+                            </div>
+                            <div class='dateCarteVerte'>
+                                <div class='leftCarteVerte'>
+                                    <p class='smaller'>du</p>
+                                    <p class='date'><?php echo $data[1] ?></p>
+                                </div>
+                                <div class='rightCarteVerte'>
+                                    <p class='smaller'>au</p>
+                                    <p class='date'><?php echo $dateFin ?></p>
+                                </div>
+                            </div>
+                            <div class='idCarteVerte'>
+                                <p>Identification<br><?php echo $data[5] ?></p>
+                            </div>
+                            <div class='numeroCarteVerte'>
+                                <p>N° <?php echo $numeroContrat ?></p>
+                            </div>
+                            <div class='assuranceCarteVerte'>
+                                <p>SomeAssurance??</p>
+                            </div>
+                        </div>
+                    <?php }if ($assureur_existe) {?>
+                        <strong>Nom de l’assurance :</strong><br><i style="margin-left: 10px;"><?php echo $data2[1] ?></i>
+                    <?php } ?>
+                    <div style='margin-bottom: 20px'>Pour plus d'informations, veuillez vous connecter.</div>
+                <?php }else{ ?>
+                    <h4>Ce numéro de contrat n'existe pas. Veuillez réessayer.</h4>
+                <?php } ?>
+            <?php } ?>
+        <?php }else{ ?>
+            <!-- connection erreur-->
+        <?php } ?>
+    	<!-- formulaire de connexion -->
+    	<div style="text-align: center;">
+    		<input type="button" class="btn" value="Se connecter" id="connexionBtn"/>
+    	</div>
+    </div>
+    <div class="footer">
+        Icônes conçues par
+        <a href="https://www.flaticon.com/fr/auteurs/iconixar" title="iconixar">iconixar</a>,
+        <a href="https://www.freepik.com" title="Freepik">Freepik</a>,
+        <a href="https://www.flaticon.com/fr/auteurs/eucalyp" title="Eucalyp">Eucalyp</a>,
+        <a href="https://www.flaticon.com/fr/auteurs/flat-icons" title="Flat Icons">Flat Icons</a>,
+        <a href="" title="Vitaly Gorbachev">Vitaly Gorbachev</a>
+        from
+        <a href="https://www.flaticon.com/fr/" title="Flaticon">www.flaticon.com</a>
+    </div>
+
+	<div id="modalEl" class="modal">
+		<div class="modal-content">
+			<span class="close">&times;</span>
+			<h3>Connexion : </h3><br>
+			<?php if (isset($_GET["numeroContrat"])) { ?>
+                <form action="verifConnexion.php?numeroContrat=<?php echo $_GET['numeroContrat'] ?>" class="form" method="post">
+            <?php }else{?>
+                <form action="verifConnexion.php" class="form" method="post">
+            <?php } ?>
+				<p><input type="text" name="pseudo" placeholder="Identifiant" required /></p>
+				<p><input type="password" name="mdp"  placeholder="Mot de passe" required /></p>
+				<p><input type="submit" name='IN' value="valider"></p>
+			</form>
+		</div>
+	</div>
+
+    <script type="text/javascript" src="./js/connexion.js"></script>
+</body>
+</html>

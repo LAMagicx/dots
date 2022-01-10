@@ -1,0 +1,11 @@
+data = [l.strip().split(";") for l in open("JeuxVideo.csv", "r").readlines()]
+keys = data[0]
+data = data[1:]
+
+DATA = {}
+for d in data:
+	DATA.update({d[0]:{}})
+	for i in range(1,len(keys)):
+		DATA[d[0]].update({keys[i]:d[i]})
+	
+

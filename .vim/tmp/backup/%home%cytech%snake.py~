@@ -1,0 +1,81 @@
+import pygame
+import random
+
+# dessiner une texte a l'ecran
+def text(pos, mots) :
+    texte = font.render(mots, True, (0,0,0))
+    fenetre.blit(texte, pos)
+
+pygame.init()
+fenetre = pygame.display.set_mode((400, 400))
+clock = pygame.time.Clock()
+font = pygame.font.SysFont("comicsansms", 20)
+xpos, ypos = 0,0
+xvit, yvit = 0,1
+taille = 20
+pomme_x, pomme_y = 400 // taille * random.randrange(0, 400 // taille - 1),  400 // taille * random.randrange(0, 400 // taille - 1)
+d_pomme_x, d_pomme_y = pomme_x, pomme_y
+score = 1
+# liste des positions de la serpent
+corps = []
+Exit = False
+while not Exit :
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            Exit = True
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_RIGHT:
+                xvit = 1
+                yvit = 0
+            if event.key == pygame.K_LEFT:
+                xvit = -1
+                yvit = 0
+            if event.key == pygame.K_UP:
+                yvit = -1
+                xvit = 0
+            if event.key == pygame.K_DOWN:
+                yvit = 1
+                xvit = 0
+    
+    fenetre.fill((255,255,255))
+    corps.append([xpos, ypos])
+
+    if xpos == pomme_x and ypos == pomme_y :
+        # mange le pomme
+        d_pomme_x, d_pomme_y = pomme_x, pomme_y
+        pomme_x, pomme_y = 400 // taille * random.randrange(0, 400 // taille - 1),  400 // taille * random.randrange(0, 400 // taille - 1)
+        corps.append([xpos, ypos])
+        score += 1
+        
+    # dessine le serpent
+    for i in range(len(corps)):
+        x, y = corps[i]
+        if x == d_pomme_x and y == d_pomme_y :
+            pygame.draw.rect(fenetre, (0, 255-(len(corps) - i)*5, 0), [x-4, y-4, taille+8, taille+8])
+        else:
+            pygame.draw.rect(fenetre, (0, 255-(len(corps) - i)*5, 0), [x , y, taille, taille])
+        
+    # dessine le pomme 
+    pygame.draw.rect(fenetre, (255, 0, 0), [pomme_x , pomme_y, taille, taille])
+
+ 
+    if xpos < 0 or xpos >= 400 or ypos < 0 or ypos >= 400 :
+        # quitte le jeu si on depasse les cotes
+        Exit = True
+
+    if len(corps) >= score:
+        corps.pop(0)
+
+    for i in range(len(corps)-2):
+        if corps[i] == [xpos, ypos]:
+            # quitte le jeu si on mange le corps
+            Exit = True
+
+    xpos += xvit * taille
+    ypos += yvit * taille
+
+    text([0,0], "score: " + str(score - 1))
+    pygame.display.update()
+    # fps
+    clock.tick(10)
+pygame.quit()

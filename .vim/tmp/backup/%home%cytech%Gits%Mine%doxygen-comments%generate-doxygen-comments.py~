@@ -1,0 +1,175 @@
+#!/usr/bin/python3
+#TODO parameter argument needs update
+import sys, os, re
+from datetime import datetime
+
+
+AUTHOR = "Samson Grice <gricemagic@cy-tech.fr>"
+DATE = f'{datetime.now():%d-%m-%y}'
+BRIEF = "default brief"
+CUSTOM_FUNCTIONS = {
+		"main":"main function"
+		}
+
+FILE_TEMPLATE = """/*! 
+  \\file {0}
+  \\author {1}
+  \\version 0.1
+  \\date {2}
+  \\brief {3}
+  \\remarks REMARKS
+*/
+"""
+
+FUNC_TEMPLATE = """
+/*! 
+  \\fn {0}
+  \\author {1}
+  \\version 0.1
+  \\date {2}
+  \\brief {3}
+*/
+"""
+
+def insert(index, insert_string, string) :
+	return string[:index] + insert_string + string[index+1:]
+
+def add_file_comment(program, filename) :
+	if program[program.index('#')-2] == '/' :
+		return program
+	else:
+		return FILE_TEMPLATE.format(filename, AUTHOR, DATE, "DESCRIPTION") + program 
+
+def find_parameters(function) :
+	params = []
+	match = re.finditer(r'(\(|,)( ?\w+ ?(\w+ ?(\[\])?| ?\**)+)', function)
+	if match:
+		match = list(match)
+		for m in match:
+			ps = m.group(2)
+			if ps:
+				if '*' not in m.group(2) :
+					params.append([ps[:ps.rfind(' ')], ps[ps.rfind(' ')+1:]])
+				else :
+					params.append([ps[:ps.rfind('*')+1], ps[ps.rfind('*')+1:]])
+	return params
+
+def find_functions(program) :
+	functions = []
+	funcs = []
+	match = re.finditer(r'((\w+)? ?\w+\b(?<!\breturn))( (\*+)? | )(\w+\b(?<!\bif)) ?\(', program)
+	if match:
+		match = list(match)
+		for m in match :
+			index = m.start()
+			funcs.append([program[index:index+program[index:index+100].index('\n')], index])
+		for f, i in funcs:
+			p = find_parameters(f)
+			s = f[:f.index('(')].split(' ')
+			fn = s[-1]
+			t = ' '.join(s[:-1])
+			if fn not in [fp[1] for fp in functions]:
+				functions.append([i, fn, t, p])
+
+	return functions
+
+def create_function_comment(function) :
+	index = function[0]
+	name = function[1]
+	return_type = function[2]
+	parameters = function[3]
+	if name in CUSTOM_FUNCTIONS.keys():
+		description = CUSTOM_FUNCTIONS[name]
+	else:
+		description = "DESCRIPTION"
+
+	comment = FUNC_TEMPLATE.format(name, AUTHOR, DATE, description)
+	if return_type != "void" :
+		comment = insert(-4, "\n  \\return type {}\n".format(return_type), comment)
+
+	if parameters :
+		for p in parameters:
+			para = "param {} of type {}".format(p[1], p[0])
+			para = para.replace('  ', ' ')
+			comment = insert(-4, "\n  \\{}\n".format(para), comment)
+
+	return comment
+
+def get_comment_argument(search, comment) :
+	if search in comment:
+		start = comment.index(search)+len(search)
+		end = comment[start:].index('\n')+start
+		return comment[start:end]
+	else:
+		return "0"
+
+def update_function_comment(program, index, function) :
+	name = function[1]
+	return_type = function[2]
+	parameters = function[3]
+	start = program[:index].rfind('!')-2
+	end = index-1
+	comment = program[start: end]
+
+	oversion = str(float(get_comment_argument(' version ', comment)))
+	version = str(round(float(get_comment_argument(' version ', comment))+0.1,2))
+	description = get_comment_argument(' brief ', comment)
+
+	new_comment = FUNC_TEMPLATE.format(name, AUTHOR, DATE, description)
+
+	if return_type != "void" :
+		new_comment = insert(-4, "\n  \\return type {}\n".format(return_type), new_comment)
+	if parameters :
+		for p in parameters:
+			para = "param {} of type {}".format(p[1], p[0])
+			para = para.replace('  ', ' ')
+			new_comment = insert(-4, "\n  \\{}\n".format(para), new_comment)
+	
+	
+
+	if (new_comment[1:-1].replace('0.1', oversion) != comment):
+		new_comment = new_comment.replace('0.1', version)
+		program = program[:start] + new_comment[1:-1] + program[end:]
+
+	return(program)
+
+def add_comment_to_file(program, comment, index) :
+	return insert(index-1, comment, program)
+	
+def generate_doxygen(filename) :
+	with open(filename, 'r') as f:
+		program = f.read()
+	
+	functions = find_functions(program)
+	offset = 0
+	for f in functions:
+		if program[offset+f[0]-2] != '/' :
+			c = create_function_comment(f)
+			program = add_comment_to_file(program, c, offset+f[0])
+			offset += len(c)-1
+		else :
+			# update fudtion 
+			pl = len(program)
+			program = update_function_comment(program, offset+f[0], f)
+			offset += len(program) - pl
+
+	program = add_file_comment(program, filename)
+
+	return program
+
+def write_over(filename, contents) :
+	with open(filename, 'w') as f:
+		f.write(contents)
+
+if __name__ == "__main__" :
+	if len(sys.argv) > 1 :
+		filename = sys.argv[1]
+		if os.path.isfile(filename):
+			new_file = generate_doxygen(filename)
+			write_over(filename, new_file)
+		else:
+			print(filename, 'is not a file')
+			print("usage:\n\tgenerate-doxygen-comments.py filename")
+	else:
+		print("usage:\n\tgenerate-doxygen-comments.py filename")
+

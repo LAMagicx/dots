@@ -1,0 +1,103 @@
+" source orignal vimrc
+source ~/.vimrc
+" {{{ Plugins
+" this is a copy of ~/.vimrc for plugins 
+" can also be used like "vim --no-plugin"
+" else tis "vim -u ~/.vim/vimrcplug"
+
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+Plugin 'VundleVim/Vundle.vim'
+" folder viewer
+Plugin 'preservim/nerdtree'
+" adds git icons to files
+Plugin 'Xuyuanp/nerdtree-git-plugin'
+" git support in vim
+Plugin 'tpope/vim-fugitive'
+" adds nerd font colors
+Plugin 'ryanoasis/vim-devicons'
+" adds colors for files in Nerd Tree
+Plugin 'tiagofumo/vim-nerdtree-syntax-highlight'
+" magic brackets
+Plugin 'jiangmiao/auto-pairs'
+" Plugin 'tpope/vim-surround'
+" commenter
+"Plugin 'preservim/nerdcommenter'
+" ALE
+Plugin 'dense-analysis/ale'
+" html help
+Plugin 'mattn/emmet-vim'
+" does this need an explination
+Plugin 'sirver/UltiSnips'
+" discord scence
+Plugin 'vimsence/vimsence'
+call vundle#end()        
+filetype plugin indent on
+
+" {{{ NerdTree
+nnoremap <leader>n :NERDTreeFocus<CR>
+nnoremap <C-n> :NERDTreeToggle<CR>
+nnoremap <C-f> :NERDTreeFind<CR>
+" Start NERDTree. If a file is specified, move the cursor to its window.
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * NERDTree | if argc() > 0 || exists("s:std_in") | wincmd p | endif
+" Exit Vim if NERDTree is the only window remaining in the only tab.
+" autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
+" If another buffer tries to replace NERDTree, put it in the other window, and bring back NERDTree.
+autocmd BufEnter * if bufname('#') =~ 'NERD_tree_\d\+' && bufname('%') !~ 'NERD_tree_\d\+' && winnr('$') > 1 |
+    \ let buf=bufnr() | buffer# | execute "normal! \<C-W>w" | execute 'buffer'.buf | endif
+>
+" let g:NERDTreeDirArrowExpandable = '?'
+" let g:NERDTreeDirArrowCollapsible = '?'
+
+" }}}
+
+" {{{ NerdTree Git
+let g:NERDTreeGitStatusIndicatorMapCustom = {
+                \ 'Modified'  :'✹',
+                \ 'Staged'    :'✚',
+                \ 'Untracked' :'✭',
+                \ 'Renamed'   :'➜',
+                \ 'Unmerged'  :'═',
+                \ 'Deleted'   :'✖',
+                \ 'Dirty'     :'✗',
+                \ 'Ignored'   :'☒',
+                \ 'Clean'     :'✔︎',
+                \ 'Unknown'   :'?',
+                \ }
+" }}}
+
+" {{{ Nerd Tree Highlighter
+" let g:NERDTreeFileExtensionHighlightFullName = 1
+" let g:NERDTreeExactMatchHighlightFullName = 1
+" let g:NERDTreePatternMatchHighlightFullName = 1
+" }}}
+
+" {{{ Ale
+let g:ale_lint_on_insert_leave=1
+let g:ale_fixers = {
+\   '*': ['remove_trailing_lines', 'trim_whitespace'],
+\   'javascript': ['eslint'],
+\   'python': ['autoflake','autopep8']
+\}
+nnoremap <leader>A :ALEEnable<cr>
+nnoremap <leader>Af :ALEFix<cr>
+nnoremap <leader>An :ALENext<cr>
+nnoremap <leader>AN :ALEPrevious<cr>
+" }}}
+
+" {{{ VimScence
+let g:vimsence_client_id = '832028561921409104'
+let g:vimsence_small_text = 'Vim'
+let g:vimsence_small_image = 'vim'
+let g:vimsence_editing_details = 'looking for {}'
+if getcwd() == '/home/cytech'
+	let g:vimsence_editing_state = 'lost in ~' "Not throwing away my indentity xd
+else
+	let g:vimsence_editing_state = 'lost in {}'
+endif
+let g:vimsence_file_explorer_text = 'Climbing trees'
+let g:vimsence_file_explorer_details = 'Looking for files'
+" }}}
+
+" }}}

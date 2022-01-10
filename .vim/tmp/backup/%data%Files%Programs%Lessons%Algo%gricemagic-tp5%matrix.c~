@@ -1,0 +1,9 @@
+#include "matrix.h"
+
+matrixType ** createMatix(int n, int m) {
+	matrixType ** M = calloc(sizeof(matrixType), n);
+	int i;
+	for (i=0; i<M;i++) {
+		*(M+i) = calloc(sizeof(matrixType), m);
+	}
+}

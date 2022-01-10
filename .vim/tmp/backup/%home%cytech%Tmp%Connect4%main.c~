@@ -1,0 +1,106 @@
+#include <stdio.h>
+#include <stdlib.h>
+#define N 5
+
+void init (int ttint_plateau[N][N]) {
+	int i;
+	int j;
+	for (i=0;i<N;i++) {
+		for (j=0;j<N;j++) {
+			ttint_plateau[j][i] = -1;
+		}
+	}
+}
+
+void affichage (int ttint_plateau[N][N]) {
+	int i;
+	int j;
+	for (i=0;i<N;i++) {
+		for (j=0;j<N;j++) {
+			if (ttint_plateau[j][i] == -1)
+				printf(" ");
+			if (ttint_plateau[j][i] == 1)
+				printf("0");
+			if (ttint_plateau[j][i] == 2)
+				printf("X");
+		}
+		printf("\n");
+	}
+}
+
+int jouer (int ttint_plateau[N][N], int int_joueur, int int_x) {
+	if (ttint_plateau[int_x][0] != -1) {
+		printf("Column is full\n");
+		return 0;
+	}else{
+		int i;
+		i=0;
+		while (ttint_plateau[int_x][i] == -1 && i < N) {
+			i++;
+		}
+		ttint_plateau[int_x][i-1] = int_joueur;
+		return 1;
+	}
+}
+
+int aGagne (int ttint_plateau[N][N]) {
+	int i;
+	int j;
+	for (i=0;i<N-3;i++) {
+		for (j=0;j<N;j++) {
+			if (ttint_plateau[i][j] != -1) {
+				if (ttint_plateau[i][j] == ttint_plateau[i+1][j] && ttint_plateau[i][j] == ttint_plateau[i+2][j] && ttint_plateau[i][j] == ttint_plateau[i+3][j])
+					return ttint_plateau[i][j];
+			}
+			if (ttint_plateau[j][i] != -1) {
+				if (ttint_plateau[j][i] == ttint_plateau[j][i+1] && ttint_plateau[j][i] == ttint_plateau[j][i+2] && ttint_plateau[j][i] == ttint_plateau[j][i+3])
+					return ttint_plateau[j][i];
+			}
+			if (j<N-3) {
+				if (ttint_plateau[j][i] != -1){
+					if (ttint_plateau[j][i] == ttint_plateau[j+1][i+1] && ttint_plateau[j][i] == ttint_plateau[j+2][i+2] && ttint_plateau[j][i] == ttint_plateau[j+3][i+3])
+						return ttint_plateau[j][i];
+				}
+				if (ttint_plateau[N-j-1][i] != -1){
+					if (ttint_plateau[N-j-1][i] == ttint_plateau[N-j-2][i+1] && ttint_plateau[N-j-1][i] == ttint_plateau[N-j-3][i+2] && ttint_plateau[N-j-1][i] == ttint_plateau[N-j-4][i+3])
+						return ttint_plateau[N-j-1][i];
+				}
+			}
+		}
+	}
+	return 0;
+}
+
+void tourDeJeu (int ttint_plateau[N][N]) {
+	int won;
+	int int_joueur;
+	int int_x;
+	int int_col_good;
+	int_joueur = rand()%2+1;
+
+	do {
+		affichage(ttint_plateau);
+		do {
+			printf("Please enter the column you wish to play in: ");	
+			scanf("%d", &int_x);
+			if (int_x < 0 || int_x >= N) {
+				printf("column not aviable\n");
+				int_col_good = 0;
+			} else {
+				int_col_good = jouer(ttint_plateau, int_joueur, int_x);
+			}
+		} while (!int_col_good);
+		won = aGagne(ttint_plateau);
+		printf("%d\n", won);
+		int_joueur = int_joueur%2+1;
+	} while (won == 0);
+	affichage(ttint_plateau);
+	printf("player %d has won\n", won);
+}
+
+int main() {
+	int ttint_plateau[N][N];
+	init(ttint_plateau);
+	tourDeJeu(ttint_plateau);
+	return 0;
+}

@@ -1,0 +1,13 @@
+# Variables and Functions
+
+### Compilation
+
+	$ make
+
+### Execution
+
+	$ ./Main
+
+### Generate Doxygen Files
+
+	$ make doc

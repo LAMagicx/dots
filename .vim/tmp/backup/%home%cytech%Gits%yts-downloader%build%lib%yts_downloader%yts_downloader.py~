@@ -1,0 +1,61 @@
+import re
+import requests
+from bs4 import BeautifulSoup
+import argparse
+
+def get_torrents(url, t):
+	try:
+		r = requests.get(url, timeout=7)
+	except requests.Timeout:
+		print('Request timeout')
+		return None
+	else:
+		torrents = {}
+		soup = BeautifulSoup(r.text, 'html.parser')
+		links = soup.find_all('a');
+		for link in links:
+			title = link.get('title')
+			if title:
+				if t in title and 'Torrent' in title and not 'BluRay' in title: 
+					tor = link.get('href')[link.get('href').rfind("/")+1:]
+					res = re.search(r"(\d+)p", title).group(1)
+					print(t, res, tor, link.get("href"))
+
+
+
+def main():
+	# First argument is the movie name
+
+	parser = argparse.ArgumentParser()
+	parser.add_argument('movie', type=str,
+						help='Movie name in single quotes')
+	args = parser.parse_args()
+	name = args.movie.lower()
+	movie_name = args.movie.replace(' ', '%20')
+
+	try:
+		r = requests.get('https://yts.mx/browse-movies/{}/all/all/0/latest/0/all'.format(movie_name), timeout=7)
+	except requests.Timeout:
+		print('Request timeout')
+	else:
+		soup = BeautifulSoup(r.text, 'html.parser')
+
+		titles = soup.find_all(class_="browse-movie-title")
+		for t in titles:
+			print(t.text)
+			url = t.get("href")
+			print(url)
+			
+
+			get_torrents(url, t.text)
+
+
+
+
+
+		print("Movie not found")
+
+
+# Uncomment this for testing
+if __name__ == "__main__":
+	main()

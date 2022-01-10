@@ -1,0 +1,48 @@
+#include "SDL_inc.h"
+
+int reload_window(int width, int height)
+{
+	// resizes the window
+    SDL_SetWindowSize(window, width, height);
+
+    //Get window surface
+    SDL_FreeSurface(screen);
+
+    screen = SDL_GetWindowSurface( window );
+    return 1;
+}
+
+int init()
+{
+	//Initialize SDL
+	if( SDL_Init( SDL_INIT_VIDEO ) < 0 )
+	{
+		fprintf(stderr, "SDL could not initialize! SDL_INIT(): %s\n", SDL_GetError() );
+		return -1;
+	}
+
+	//Initialize SDL_ttf
+    if( TTF_Init() == -1 )
+    {
+        fprintf(stderr, "SDL_ttf could not initialize! SDL_ttf Error: %s\n", TTF_GetError() );
+        return -1;
+    }
+
+    //Create window
+    window = SDL_CreateWindow( "Connect 4", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN );
+    if( window == NULL )
+    {
+        fprintf(stderr, "Window could not be created! SDL_CreateWindow(): %s\n", SDL_GetError() );
+        return -1;
+    }
+
+    //Get window surface
+    screen = SDL_GetWindowSurface( window );
+
+    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_PRESENTVSYNC);
+    if ( renderer == NULL )
+    {
+        fprintf(stderr, "Renderer could not be created! SDL_CreateRenderer(): %s\n", SDL_GetError());
+    }
+	return 0;
+}

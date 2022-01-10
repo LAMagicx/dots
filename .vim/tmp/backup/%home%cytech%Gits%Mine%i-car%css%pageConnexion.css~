@@ -1,0 +1,159 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+html {
+  height: 100%;
+}
+
+body {
+  min-height: 100%;
+  margin: 0;
+  padding: 0;
+  color: #5a5958;
+}
+
+.contenu{
+    display: flex;
+    text-align: center;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.modal-content {
+    background-color: #f5f5f5;
+    z-index: 300;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0px 0px 14px 1px #b8b8b8;
+    padding: 1.5rem;
+	margin: 10% auto;
+	width: min(500px, 80%);
+}
+
+@media (min-width: 768px) {
+}
+
+.close {
+    color: #252525;
+    float: right;
+    font-size: 2.25rem;
+    font-weight: bold;
+    margin-right: 1rem;
+}
+
+.close:hover,
+.close:focus {
+    color: #5c5c5c;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.infoCarteVerte{
+  border-radius: 25px;
+  border: 2px solid #5a5958;
+  background-color: white;
+  padding: 10px;
+  margin-left: 25%;
+  margin-right: 25%;
+  margin-bottom: 10px;
+}
+
+
+.divCarteVerte{
+    font-size: 1rem;
+    color: black;
+    background-color: rgb(186, 242, 216);
+    height: 500px;
+    width: 500px;
+    margin: auto;
+    display: flex;
+    flex-flow: column nowrap;
+}
+
+.headerCarteVerte p {
+    /*font-family: "Open Sans", sans-serif;*/
+    font-family: roboto;
+    font-size: 2em;
+    margin: 20px;
+    font-weight: 700;
+}
+
+.dateCarteVerte{
+    width: 100%;
+    display: flex;
+    flex-flow: row;
+}
+.dateCarteVerte div .smaller {
+    font-size: 1.3em;
+}
+
+.dateCarteVerte div{
+    width:50%;
+}
+.dateCarteVerte div p{
+    font-size: 1.5em;
+    margin: 10px;
+    font-weight: bold;
+}
+
+.idCarteVerte{
+    margin-top: 10%;
+}
+
+.idCarteVerte p{
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+.numeroCarteVerte p{
+    font-weight: bold;
+    font-size: 1.2em;
+    margin-left: 15%;
+    text-align: left;
+}
+
+.assuranceCarteVerte{
+    text-align: left;
+    font-weight: 100;
+    font-size: 1.4em;
+    margin-left: 15%;
+}
+
+img{
+  width:100px;
+  margin-left: 5%;
+  margin-top: 15px;
+}
+
+.footer{
+  text-align:center;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+@media only screen and (max-device-width: 800px){
+   .divCarteVerte{
+       margin: 5vw;
+       width: auto;
+       height: auto;
+   }
+   .divCarteVerte p{
+        font-size: 4.9vw;
+   }
+
+   .dateCarteVerte div p{
+        font-size: 3em;
+   }
+
+   .dateCarteVerte div .smaller{
+        font-size:2em;
+   }
+
+}

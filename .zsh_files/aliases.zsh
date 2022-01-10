@@ -8,6 +8,7 @@ alias egrep='egrep --color=auto'                                                
 alias fgrep='fgrep --color=auto'                                                                # more color
 alias more=less                                                                                 # not sure  
 alias ls='ls --color -holX --group-directories-first'                                           # main ls
+alias sl='ls'
 alias python=python3                                                                            # python 2/3 fix 
 #alias gcc='gcc -Werror -Wall -Wextra -pedanticpedantic'                                        # C compliling
 alias cd..='cdcd ..'                                                                            # Spelling
@@ -29,6 +30,7 @@ alias ccat="colorize_cat"                                                       
 alias cless="colorize_less"                                                                     # colored less
 alias vs='vim ~/.vimrc'                                                                         # open vimrc
 alias va='vim ~/.zsh_files/aliases.zsh'                                                         # open this page
+alias vip='vim -u ~/.vim/vimrcplug'
 alias screen='xrandr --output HDMI1 --auto --primary --right-of eDP1'                           # reset screens
 alias pytohn='python'                                                                           # spelling
 alias pyotnh='python'                                                                           # spelling
@@ -37,7 +39,7 @@ alias fr='setxkbmap fr'                                                         
 alias gb='setxkbmap gb'                                                                         # you sure ?
 alias swifi='nmcli device wifi list'                                                            # show availble wifis
 alias cwifi='nmcli device wifi connect'                                                         # connect to wifi
-#alias sp='/home/magic/sp'                                                                      # spoitfy client
+#alias sp='~/sp'                                                                      # spoitfy client
 alias lock='lock 3 10'                                                                          # lock screen
 alias sbms='sudo systemctl start smb nmb'                                                       # start samba server 
 alias suspend='sudo /usr/lib/systemd/systemd-sleep suspend'                                     # suspend the system
@@ -53,7 +55,7 @@ alias b1='xrandr --output eDP-1 --brightness'                                   
 alias mkles='~/.local/bin/mkles'                                                                # alias for make lessons
 alias money='~/Files/Procastination/Crypto/tracker.py'                                          # cryto tracker
 alias qlocate='rg -rnw . -e '                                                                    # finder
-alias locate='grep -rnw . -e '                                                                  # find slow
+alias locate='find -name '                                                                  # find slow
 alias gitsave='git config --local credential.helper store'                                      # save local git password + username
 alias pjson='python -m json.tool'                                                          # pretty json
 alias haskell='runhaskell'                                                                      # run haskell
@@ -63,4 +65,12 @@ alias startvnc='ssh -t -L 5900:localhost:5900 192.168.1.21 "x11vnc -localhost -d
 alias connectvnc='vncviewer -PreferredEncoding=ZRLE localhost:0'
 alias ssup='ssh magicserv -t "up"'
 alias ssdo='ssh magicserv -t "down"'
+alias gitc='git commit -m'
+alias ala='cd ~/.config/alacritty/ && vim alacritty.yml'
+alias flex="genact"
+alias ctags="ctags -R"
+alias sexy="echo 'who | grep -i blonde | date; cd ~; unzip; \n touch; strip; finger; mount; gasp; yes \n  uptime; umount; sleep'"
+alias mon="xinput enable 14"
+alias moff="xinput disable 14"
+
 

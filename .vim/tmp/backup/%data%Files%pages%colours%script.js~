@@ -1,0 +1,42 @@
+const colors = [
+	'F8A',
+	'AF8',
+	'8AF',
+	'FA8',
+	'8FA',
+	'A8F',
+	'F85',
+	'5F8',
+	'85F',
+	'F58',
+	'8F5',
+	'58F'
+	];
+
+function addDiv(color) {
+	var d = document.createElement('div')
+	var l = document.createElement('input')
+	l.value = '#'+color;
+	l.setAttribute('class', 'color')
+	l.setAttribute('type', 'text')
+	l.setAttribute('onkeyup', 'updateColors()')
+	d.setAttribute('class', 'block')
+	d.appendChild(l)
+	document.getElementById("main").appendChild(d)
+	updateColors();
+}
+
+function updateColors() {
+	bs = document.getElementsByClassName("block");
+	for (let i = 0; i < bs.length; i++) {
+		var l = bs[i].getElementsByClassName('color')[0]
+		var color = 'background-color:' + l.value
+		bs[i].setAttribute('style', color);
+	}
+}
+
+function load() {
+	for (let i = 0; i<colors.length; i++) {
+		addDiv(colors[i]);
+	}
+}

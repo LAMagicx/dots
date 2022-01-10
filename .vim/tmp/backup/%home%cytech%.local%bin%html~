@@ -1,0 +1,5 @@
+#!/bin/sh
+mkdir ~/Files/pages/$1
+cp ~/.vim/.templates/htmltemp.html ~/Files/pages/$1/index.html
+touch ~/Files/pages/$1/style.css
+touch ~/Files/pages/$1/script.js

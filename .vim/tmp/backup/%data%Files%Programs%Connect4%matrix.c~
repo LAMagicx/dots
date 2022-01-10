@@ -1,0 +1,35 @@
+#include "matrix.h"
+
+matrixType ** createMatix(int n, int m) {
+	matrixType ** M = malloc(sizeof(matrixType*) * n);
+	int i;
+	int j;
+	for (i=0; i < n; i++) {
+		M[i] = malloc(sizeof(matrixType) * m);
+		for (j=0; j < m; j++) {
+			M[i][j] = 0;
+		}
+	}
+	return M;
+}
+
+void initMatrix(matrixType ** M, int n, int m) {
+	int i;
+	int j;
+	for (i=0; i < n; i++) {
+		for (j=0; j < m; j++) {
+			scanf("%d", &M[i][j]);
+		}
+	}
+}
+
+void printMatrix(matrixType ** M, int n, int m) {
+	int i;
+	int j;
+	for (i=0; i < n; i++) {
+		for (j=0; j < m; j++) {
+			printf("%d ", M[i][j]);
+		}
+		printf("\n");
+	}
+}

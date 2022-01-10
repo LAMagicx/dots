@@ -1,0 +1,62 @@
+#include "connect.h"
+
+
+matrixType ** play(matrixType ** M, int n, int m, int player) {
+	int x;
+	int y;
+	do {
+		printf("enter the col to play in: \n");	
+		enterInteger(&y);
+		if (y <= 0 || y > m)
+			printf("col must be between %d and %d\n", 1, m);
+		if (M[0][y-1] != 0)
+			printf("col is full please choose another\n");
+	}while ((y <= 0 || y > m) || M[0][y-1] != 0);
+
+	int i;
+	for (i=0; i < n; i++) {
+		if (M[i][y-1] == 0)
+			x = i;
+	}
+	M[x][y-1] = player;
+	return M;
+}
+
+int findConnect(matrixType ** M, int n, int m, int i, int j, int a, int b, int player, int count) {
+	if (count == 4) {
+		return player;
+	} else if (i+a >= 0 && i+a < n && j+b >= 0 && j+b < m) {
+		if (M[i+a][j+b] == player) {
+			return findConnect(M, n, m, i+a, j+b, a, b, player, count+1);
+		} else {
+			return 0;
+		}
+	} else {
+		return 0;
+	}
+}
+
+int checkWin(matrixType ** M, int n, int m) {
+	int res;
+	res = 0;
+	int i;
+	int j;
+	int a;
+	int b;
+	for (i=0; i<n;i++) {
+		for (j=0;j<m;j++) {
+			if (M[i][j] != 0) {
+				for (a=-1;a<=1;a++) {
+					for (b=-1;b<=1;b++) {
+						if (i+a >= 0 && i+a < n && j+b >= 0 && j+b < m && (a != 0 || b != 0)) {
+							if (M[i+a][j+b] == M[i][j]) {
+								res = res | findConnect(M, n, m, i+a, j+b, a, b, M[i][j], 2);
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	return res;
+}

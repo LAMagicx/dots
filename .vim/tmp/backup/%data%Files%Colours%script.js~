@@ -1,0 +1,22 @@
+function addDiv() {
+	var d = document.createElement('div')
+	var l = document.createElement('input')
+	l.value = '#000000'
+	l.setAttribute('class', 'color')
+	l.setAttribute('type', 'text')
+	l.setAttribute('onkeyup', 'updateColors()')
+	d.setAttribute('class', 'block')
+	d.appendChild(l)
+	document.getElementById("main").appendChild(d)
+	updateColors();
+}
+
+function updateColors() {
+	bs = document.getElementsByClassName("block");
+	for (let i = 0; i < bs.length; i++) {
+		var l = bs[i].getElementsByClassName('color')[0]
+		var color = 'background-color:' + l.value
+		bs[i].setAttribute('style', color);
+		l.setAttribute('style', color);
+	}
+}	

@@ -1,0 +1,128 @@
+.contrat {
+    padding: 0;
+}
+
+#validity.invalide{
+    color: red;
+}
+#validity.valide{
+    color: green;
+}
+
+.carteverte p {
+    margin: 5px;
+    text-align: center;
+}
+
+
+.carteverte {
+    background-color: rgb(186, 242, 216);
+    padding: 0;
+    display: flex;
+    justify-content: space-between;
+    margin: auto;
+    border: solid black 1px;
+	width: fit-content;
+}
+
+.carteverte .border{
+    border: solid #333 1px;
+}
+
+.carteverte .border-left{
+    border-left: solid #333 1px;
+}
+
+.carteverte .border-right{
+    border-right: solid #333 1px;
+}
+
+.carteverte .border-top{
+    border-top: solid #333 1px;
+}
+
+.carteverte .border-bottom{
+    border-bottom: solid #333 1px;
+}
+
+.carteverte > div {
+    display: flex;
+    flex-flow: column nowrap;
+    /* justify-content: space-evenly; */
+}
+
+.carteverte > .left > .top{
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-between;
+}
+
+.carteverte > .left > .top > div {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-around;
+}
+
+.carteverte > .left > .top > .top > div {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-between;
+}
+
+.carteverte > .left > .top > .top > .left > div:nth-child(2){
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-evenly;
+}
+
+.carteverte > .left > .top > .bottom > div {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-between;
+}
+
+.carteverte > .right {
+    font-size: 1em;
+}
+
+.carteverte > .right > .top h4 {
+    margin-left: 2em;
+}
+
+td {
+    padding: 5px;
+    background-color: rgb(186, 242, 216);
+    color: black;
+}
+
+.bar {
+	border: 1px solid black;
+	background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' version='1.1' preserveAspectRatio='none' viewBox='0 0 10 10'> <path d='M0 10 L10 0' stroke-width='0.5' fill='none' stroke='black'/></svg>");
+	background-repeat:no-repeat;
+	background-position:center center;
+	//scale it 
+	background-size: 100% 100%, auto;
+}
+
+@media (max-width: 600px) {
+    .carteverte {
+        flex-flow: column nowrap;
+    }
+}
+
+@media (max-width: 1400px) {
+	.carteverte {
+        flex-flow: column nowrap;
+		font-size: clamp(0.7em, 2.5vw, 2em);
+ 	}
+
+	.carteverte > .right > .top {
+		border-top: 1px solid black
+	}
+}
+
+@media (min-width: 1400px) {
+	.carteverte {
+		font-size: clamp(0.7em, 5vw, 3em);
+	}
+}

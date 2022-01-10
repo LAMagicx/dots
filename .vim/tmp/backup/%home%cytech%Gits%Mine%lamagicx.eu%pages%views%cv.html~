@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width" />
+        <!-- <meta http-equiv="refresh" content="3"> -->
+        <!-- added a useless line -->
+        <title>Cv</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+        <link rel="stylesheet" href="pages/static/css/cv_style.css" type="text/css" media="all">
+    </head>
+    <body>
+        <div id="CV">
+            <div id="sidebar">
+                <div id="profile">
+                    <img src="assets/Images/me2.jpg" alt="profile"/> 
+                </div>
+                <div id="about">
+                    <h2 class="title">About Me</h2>
+                    <span class="sub"></span>
+                    <p class="content">British student studying at CyTech (ex EISTI), Pau, France. Studying Mathematics and Computer Science with interests in artificial intelligence and procedural graphics. Worked on multiple web development projects as web designer and backend developer for professional and local businesses. </p>
+                </div>
+                <span class="sep"></span>
+                <div id="links">
+                    <h2 class="title">Social Links</h2>
+                    <span class="sub"></span>
+                    <p class="content"><i class="material-icons">language</i> : <a href="https://lamagicx.eu" target="_blank">lamagicx.eu</a></p> 
+                    <p class="content"><i class="fa fa-github fa-lg" aria-hidden="true"></i> : <a href="https://github.com/LAMagicx" target="_blank">LAMagicx</a></p> 
+                    <p class="content"><i class="fa fa-linkedin-square fa-lg" aria-hidden="true"></i> : <a href="www.linkedin.com/in/samson-grice-bbb464223/" target="_blank">samson-grice</a></p> 
+                </div>
+                <span class="sep"></span>
+                <div id="skills">
+                    <h2 class="title">Skills</h2>
+                    <span class="sub"></span>
+                    <div class="skill">
+                        <p class="content">English</p>
+                        <div class="bar"><div class="p10"></div></div>
+                    </div>
+                    <div class="skill">
+                        <p class="content">French</p>
+                        <div class="bar"><div class="p10"></div></div>
+                    </div>
+                    <div class="skill">
+                        <p class="content">Python</p>
+                        <div class="bar"><div class="p10"></div></div>
+                    </div>
+                    <div class="skill">
+                        <p class="content">HTML/CSS/JS</p>
+                        <div class="bar"><div class="p8"></div></div>
+                    </div>
+                    <div class="skill">
+                        <p class="content">Php</p>
+                        <div class="bar"><div class="p8"></div></div>
+                    </div>
+                    <div class="skill">
+                        <p class="content">C</p>
+                        <div class="bar"><div class="p6"></div></div>
+                    </div>
+                    <div class="skill">
+                        <p class="content">Mathematics</p>
+                        <div class="bar"><div class="p6"></div></div>
+                    </div>
+                    <div class="skill">
+                        <p class="content">Git</p>
+                        <div class="bar"><div class="p7"></div></div>
+                    </div>
+                    <div class="skill">
+                        <p class="content">MySQL</p>
+                        <div class="bar"><div class="p6"></div></div>
+                    </div>
+                </div>
+                <span class="sep" style="margin-top: 0.5em"></span>
+                 
+            </div>
+            <div id="main">
+                <div id="header">
+                    <div id="name">
+                        <h1>Samson</h1> 
+                        <h1 style="padding-top: 0.2em;">Grice</h1>
+                    </div>                
+                    <div id="contact">
+                        <div class="cont" id="email">
+                            <p><i class="material-icons">email</i>: samsgrice@gmail.com</p> 
+                            <p><i class="material-icons">phone</i>: +33 06 15 58 39 10</p>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-bottom: 0.5em;">
+                    <h2 class="title">Php Developer</h2>
+                </div>
+                <span class="sep"></span>
+                <div id="work">
+                    <h2 class="title">Work Experience</h2>
+                    <div class="exp">
+                        <div class="location">
+                            <h4>La Terrasse</h4> 
+                            <h5>Duras</h5>
+                            <h5>Jul '21 - Aug '21</h5>
+                        </div>
+                        <div class="separator ">
+                            <span class="dot"></span>
+                            <span class="line"></span>
+                        </div>
+                        <div class="description">
+                            <h4>Head Waiter & Website Developer</h4>
+                            <p class="content">Summer job as a waiter, where I also helped design the restaurant's new website.</p>
+                        </div>
+                    </div> 
+                    <div class="exp">
+                        <div class="location">
+                            <h4>La Terrasse</h4> 
+                            <h5>Duras</h5>
+                            <h5>Jul '20 - Aug '20</h5>
+                        </div>
+                        <div class="separator ">
+                            <span class="dot"></span>
+                            <span class="line"></span>
+                        </div>
+                        <div class="description">
+                            <h4>Assistant Waiter</h4>
+                            <p class="content">Student Summer Job.</p>
+                        </div>
+                    </div> 
+                    <div class="exp">
+                        <div class="location">
+                            <h4>Venture 42</h4> 
+                            <h5>Duras</h5>
+                            <h5>Sep '18 - Jan '19</h5>
+                        </div>
+                        <div class="separator ">
+                            <span class="dot"></span>
+                            <span class="line"></span>
+                        </div>
+                        <div class="description">
+                            <h4>Administrative Website Assistant</h4>
+                            <p class="content">Learnt about web hosting and helped to manage and organise directories.</p>
+                        </div>
+                    </div> 
+                    <div class="exp">
+                        <div class="location">
+                            <h4>Bombay Busserie</h4> 
+                            <h5>Allemans sur Dropt</h5>
+                            <h5>Sep '18 - Jan '19</h5>
+                        </div>
+                        <div class="separator ">
+                            <span class="dot"></span>
+                            <span class="line"></span>
+                        </div>
+                        <div class="description">
+                            <h4>Catering Assistant</h4>
+                            <p class="content">Took orders from customers and delivered food.</p>
+                        </div>
+                    </div> 
+                </div>
+                <span class="sep" style="margin-top: 8.8%"></span>
+                <div id="school">
+                    <h2 class="title">Education</h2>
+                    <div class="exp">
+                        <div class="location">
+                            <h4>CyTech</h4> 
+                            <h5>Pau</h5>
+                            <h5>Sep '21 - Now</h5>
+                        </div>
+                        <div class="separator ">
+                            <span class="dot"></span>
+                            <span class="line"></span>
+                        </div>
+                        <div class="description">
+                            <h4>Master in Math and Computer Science</h4>
+                            <p class="content">A 3 year course specialising in Maths and Computer Science.</p>
+                        </div>
+                    </div> 
+                    <div class="exp">
+                        <div class="location">
+                            <h4>CyTech</h4> 
+                            <h5>Pau</h5>
+                            <h5>Sep '19 - Jul '21</h5>
+                        </div>
+                        <div class="separator ">
+                            <span class="dot"></span>
+                            <span class="line"></span>
+                        </div>
+                        <div class="description">
+                            <h4>Prepratory Classes</h4>
+                            <p class="content">2 years in scientific curriculum in preperation for entrance into Engineering school. </p>
+                        </div>
+                    </div> 
+                    <div class="exp">
+                        <div class="location">
+                            <h4>Lycée Val de Garonne</h4> 
+                            <h5>Marmande</h5>
+                            <h5>Sep '16 - Jul '19</h5>
+                        </div>
+                        <div class="separator ">
+                            <span class="dot"></span>
+                            <span class="line"></span>
+                        </div>
+                        <div class="description">
+                            <h4>High School</h4>
+                            <p class="content">Passed High School with an A in Maths, Physics and Engineering.</p>
+                        </div>
+                    </div> 
+                    <div class="exp">
+                        <div class="location">
+                            <h4>County Upper</h4> 
+                            <h5>Bury St Edmunds</h5>
+                            <h5>Sep '14 - Apr '15</h5>
+                        </div>
+                        <div class="separator ">
+                            <span class="dot"></span>
+                            <span class="line"></span>
+                        </div>
+                        <div class="description">
+                            <h4>High School</h4>
+                            <p class="content">My final year of education in Great Britan.</p>
+                        </div>
+                    </div> 
+                </div>
+                <span class="sep" style="margin-top: 10.8%"></span>
+                <div id="hobbies">
+                    <h2 class="title">Hobbies</h2>
+                    <div id="stuff">
+                        <i class="material-icons">functions</i><h5 class="hobby">Maths</h5>
+                        <i class="material-icons">music_note</i><h5 class="hobby">Music</h5>
+                        <i class="material-icons">sports_rugby</i><h5 class="hobby">Sports</h5>
+                        <i class="fa fa-linux fa-lg" aria-hidden="true"></i><h5 class="hobby">Linux</h5>
+                        <i class="fa fa-code fa-lg" aria-hidden="true"></i><h5 class="hobby">Code</h5>
+                        <i class="fa fa-laptop fa-lg" aria-hidden="true"></i><h5 class="hobby">Computers</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

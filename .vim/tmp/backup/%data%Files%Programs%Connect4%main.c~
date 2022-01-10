@@ -1,0 +1,89 @@
+#include "connect.h"
+#include "ai.h"
+
+matrixType ** rotateBoard(matrixType ** M, int * n, int * m) {
+	int i;
+	for (i=0; i<ROTATIONS; i++) {
+		M = rotateLeft(M, n, m);
+	}
+	M = gravity(M, *n, *m);
+	return M;
+}
+
+int playSpot(matrixType ** M, int c, int n, int m, int player) {
+	int x;
+	int i;
+	for (i=0; i < n; i++) {
+		if (M[i][c] == 0) {
+			x = i;
+			M[x][c] = player;
+			usleep(150000);
+			displayBoard(M, n, m);
+			M[x][c] = 0;
+		}
+	}
+	M[x][c] = player;
+	return x;
+}
+
+void playRound(matrixType ** M, int n, int m) {
+	int player;
+	int col;
+	int row;
+	player = rand()%2 + 1;
+	int won;
+	int p1_rotations;
+	int p2_rotations;
+	printf("How many rotations: ");
+	enterInteger(&p1_rotations);
+	p2_rotations = p1_rotations;
+	do {
+		//printMatrix(M, n, m);
+		displayBoard(M, n, m);
+		if (player%2) {
+			printf("Player 1\n");
+		}else{
+			printf("Player 2\n");
+		}
+		col = play(M, n, m, player);
+		row = playSpot(M, col, n, m, player);
+		M[row][col] = player;
+		won = checkWin(M, n, m);
+		if (!won) {
+			displayBoard(M, n, m);
+			if (player%2) {
+				if (p1_rotations) {
+					if (askRotate()) {
+						M = rotateBoard(M, &n, &m);
+						p1_rotations--;
+					}
+				}
+			}else{
+				if (p2_rotations) {
+					if (askRotate()) {
+						M = rotateBoard(M, &n, &m);
+						p2_rotations--;
+					}
+				}
+			}
+		}
+		won = checkWin(M, n, m);
+		player = player % 2 + 1 ;
+	}while (won == 0);
+
+	displayBoard(M, n, m);
+	printf("player %d has won\n", won);
+}
+
+int main(int argc, char ** argv) {
+    if (argv){
+        printf("%s\n", argc[argv-1]);
+        // stop warnings on Linux
+    }
+	int n = 6;
+	int m = 7;
+	matrixType ** M;
+	M = createMatix(n, m);
+	playRound(M, n, m);
+	return 0;
+}

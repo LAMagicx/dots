@@ -1,0 +1,75 @@
+" Settings {{{
+set encoding=utf-8
+set nocompatible
+syntax enable
+filetype indent on
+set relativenumber
+set number
+set expandtab
+set tabstop=4 shiftwidth=4
+set softtabstop=4
+set smarttab
+set autoindent
+set autoread
+set ignorecase
+set smartcase
+set hlsearch
+set incsearch
+set showmatch
+set wildmenu
+set showmatch
+set foldenable
+set foldlevelstart=10
+set foldnestmax=10
+set foldmethod=indent
+set path+=**
+set timeoutlen=1000
+set ttimeoutlen=0
+let &titlestring = "vim " . expand("%:t")
+set title
+let g:python3_host_prog="/usr/bin/python3"
+let mapleader = "\\"
+" }}}
+
+" Colour {{{
+colorscheme gruvbox
+set background=dark
+hi Normal guibg=NONE ctermbg=NONE
+hi Folded guibg=NONE ctermbg=NONE
+" }}}
+
+" {{{ Maps
+
+noremap <leader>hl :nohl<cr>
+inoremap jk <esc>
+
+nnoremap <C-l> <C-w><C-l>
+nnoremap <C-h> <C-w><C-h>
+nnoremap <C-k> <C-w><C-k>
+nnoremap <C-j> <C-w><C-j>
+
+nnoremap ; :
+
+" }}}
+ 
+" {{{ File Maps
+" Inkscape shorcuts
+autocmd Filetype tex,markdown set spell
+autocmd Filetype tex,markdown set spelllang=uk
+autocmd Filetype tex,markdown set spelllang+=fr
+"}}}
+
+" {{{ Other
+
+" W saves as sudo
+command W w !sudo tee % > /dev/null
+autocmd FileChangedShell * echohl WarningMsg | echo "File changed shell." | echohl None
+hi! EndOfBuffer ctermbg=NONE ctermfg=NONE guibg=NONE guifg=NONE 
+"}}}
+
+" {{{ PseudoCode highlighting
+autocmd BufNewFile,BufRead *.psc set syntax=psc
+" }}}
+
+" vim:foldmethod=marker:foldlevel=0
+

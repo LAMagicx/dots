@@ -1,0 +1,470 @@
+/*! 
+  \ file main.c
+  \ author Samson Grice <gricemagic@cy-tech.fr>
+  \ version 0.1
+  \ date 11-12-21
+  \ brief DESCRIPTION
+  \ remarks none
+*/
+#include "sdlinc.h"
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <math.h>
+#include <time.h>
+
+//Screen dimension constants
+const int SCREEN_WIDTH = 800;
+const int SCREEN_HEIGHT = 800;
+const Uint8 * state;
+
+/*! 
+  \ fn init
+  \ author Samson Grice <gricemagic@cy-tech.fr>
+  \ version 0.1
+  \ date 11-12-21
+  \ brief description
+  \ return type int
+*/
+int init();
+
+//The window we'll be rendering to
+SDL_Window* window = NULL;
+
+//The surface contained by the window
+SDL_Surface* screen = NULL;
+
+//The renderer to display text
+SDL_Renderer * renderer = NULL;
+
+typedef struct{
+    int x;
+    int y;
+}point;
+
+typedef struct body{
+    point * pos;
+    struct body * from;
+    struct body * to;
+}body;
+
+
+float X=0.0;Y=0.0;
+const int snake_size = 20;
+point snake_dir = {0,0};
+point start = {0,0};
+body snake_body = {&start, NULL, NULL};
+int snake_length = 1;
+
+SDL_Rect apple;
+
+
+
+int init()
+{
+	//Initialize SDL
+	if( SDL_Init( SDL_INIT_VIDEO ) < 0 )
+	{
+		fprintf(stderr, "SDL could not initialize! SDL_INIT(): %s\n", SDL_GetError() );
+		return -1;
+	}
+
+	//Initialize SDL_ttf
+    if( TTF_Init() == -1 )
+    {
+        fprintf(stderr, "SDL_ttf could not initialize! SDL_ttf Error: %s\n", TTF_GetError() );
+        return -1;
+    }
+
+    //Create window
+    window = SDL_CreateWindow( "2048", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN );
+    if( window == NULL )
+    {
+        fprintf(stderr, "Window could not be created! SDL_CreateWindow(): %s\n", SDL_GetError() );
+        return -1;
+    }
+
+    //Get window surface
+    screen = SDL_GetWindowSurface( window );
+
+    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_PRESENTVSYNC);
+    if ( renderer == NULL )
+    {
+        fprintf(stderr, "Renderer could not be created! SDL_CreateRenderer(): %s\n", SDL_GetError());
+    }
+
+
+	return 0;
+}
+
+/*! 
+  \ fn reload_window
+  \ author Samson Grice <gricemagic@cy-tech.fr>
+  \ version 0.1
+  \ date 11-12-21
+  \ brief description
+  \ return type int
+  \ param width of type int
+  \ param height of type int
+*/
+int reload_window(int width, int height)
+{
+    //Create window
+    SDL_SetWindowSize(window, width, height);
+
+    //Get window surface
+    SDL_
+/*! 
+  \ fn reload_window
+  \ author Samson Grice <gricemagic@cy-tech.fr>
+  \ version 0.1
+  \ date 11-12-21
+  \ brief description
+  \ return type int
+  \ param width of type int
+  \ param height of type int
+*/
+reeSurface(screen);
+    screen = SDL_GetWindowSurface( window );
+    return 1;
+}
+
+/*! 
+  \ fn dist
+  \ author Samson Grice <gricemagic@cy-tech.fr>
+  \ version 0.1
+  \ date 11-12-21
+  \ brief description
+  \ return type float
+  \ param x1 of type int
+  \ param y1 of type int
+  \ param x2 of type int
+  \ param y2 of type int
+*/
+float dist(int x1, int y1, int x2, int y2)
+{
+    return sqrt((x2 - x1)*(x2 - x1) + (y2 - y1)*(y2 - y1));
+}
+
+/*! 
+  \ fn check_keys
+  \ author S
+/*! 
+  \ fn dist
+  \ author Samson Grice <gricemagic@cy-tech.fr>
+  \ version 0.1
+  \ date 11-12-21
+  \ brief description
+  \ return type float
+  \ param x1 of type int
+  \ param y1 of type int
+  \ param x2 of type int
+  \ param y2 of type int
+*/
+mson Grice <gricemagic@cy-tech.fr>
+  \ version 0.1
+  \ date 11-12-21
+  \ brief description
+  \ param state of type const Uint8 *
+*/
+void check_keys(const Uint8 *state)
+{
+    if (state[SDL_SCANCODE_RIGHT])
+    {
+        snake_dir.x = 1;
+        snake_dir.y = 0;
+    }
+    if (
+/*! 
+  \ fn check_keys
+  \ author Samson Grice <gricemagic@cy-tech.fr>
+  \ version 0.1
+  \ date 11-12-21
+  \ brief description
+  \ param state of type const Uint8 *
+*/
+tate[SDL_SCANCODE_UP])
+    {
+        snake_dir.x = 0;
+        snake_dir.y = -1;
+    }
+    if (state[SDL_SCANCODE_LEFT])
+    {
+        snake_dir.x = -1;
+        snake_dir.y = 0;
+    }
+    if (state[SDL_SCANCODE_DOWN])
+    {
+        snake_dir.x = 0;
+        snake_dir.y = 1;
+    }
+}
+
+/*! 
+  \ fn check_walls
+  \ author Samson Grice <gricemagic@cy-tech.fr>
+  \ version 0.1
+  \ date 11-12-21
+  \ brief description
+*/
+void check_walls()
+{
+    if (snake_body.pos->x < 0 || snake_body.pos->x >= SCREEN_WIDTH || snake_body.pos->y < 0 || snake_body.pos->y >= SCREEN
+/*! 
+  \ fn check_walls
+  \ author Samson Grice <gricemagic@cy-tech.fr>
+  \ version 0.1
+  \ date 11-12-21
+  \ brief description
+*/
+HEIGHT)
+        exit(0);
+}
+
+/*! 
+  \ fn update_snake
+  \ author Samson Grice <gricemagic@cy-tech.fr>
+  \ version 0.1
+  \ date 11-12-21
+  \ brief description
+*/
+void update_snake()
+{
+    body * b = &snake_body;
+    while (b->to) {
+        b = b->to;
+    }
+    while (b->from) {
+        b->pos->x = b->fro
+/*! 
+  \ fn update_snake
+  \ author Samson Grice <gricemagic@cy-tech.fr>
+  \ version 0.1
+  \ date 11-12-21
+  \ brief description
+*/
+->pos->x;
+        b->pos->y = b->from->pos->y;
+        b = b->from;
+    }
+    snake_body.pos->x += snake_size * snake_dir.x;
+    snake_body.pos->y += snake_size * snake_dir.y;
+}
+
+/*! 
+  \ fn move_apple
+  \ author Samson Grice <gricemagic@cy-tech.fr>
+  \ version 0.1
+  \ date 11-12-21
+  \ brief description
+*/
+void move_apple()
+{
+    apple.x=rand()%(SCREEN_WIDTH/snake_size) * snake_size;
+    apple.y=rand()%(SCREEN_HEIGHT/snake_size) * snake_size;
+    
+/*! 
+  \ fn move_apple
+  \ author Samson Grice <gricemagic@cy-tech.fr>
+  \ version 0.1
+  \ date 11-12-21
+  \ brief description
+*/
+pple.w=snake_size;
+    apple.h=snake_size;
+}
+
+/*! 
+  \ fn create_body
+  \ author Samson Grice <gricemagic@cy-tech.fr>
+  \ version 0.1
+  \ date 11-12-21
+  \ brief description
+  \ return type body*
+*/
+body * create_body(body * snake)
+{
+    body * b = malloc(sizeof(body));
+    b->pos = malloc(sizeof(point));
+    b->pos->x = snake->pos->x;
+    
+/*! 
+  \ fn create_body
+  \ author Samson Grice <gricemagic@cy-tech.fr>
+  \ version 0.1
+  \ date 11-12-21
+  \ brief description
+  \ return type body*
+*/
+->pos->y = snake->pos->y;
+    b->to = NULL;
+    b->from = snake;
+    return b;
+}
+
+/*! 
+  \ fn update_body
+  \ author Samson Grice <gricemagic@cy-tech.fr>
+  \ version 0.1
+  \ date 11-12-21
+  \ brief description
+*/
+void update_body()
+{
+    body * b = create_body(&snake_body);
+    body * t = snake_body.to;
+    b->to = t;
+    snake_body.to = b;
+    if (t) {
+
+/*! 
+  \ fn update_body
+  \ author Samson Grice <gricemagic@cy-tech.fr>
+  \ version 0.1
+  \ date 11-12-21
+  \ brief description
+*/
+       t->from = b;
+    }
+}
+
+/*! 
+  \ fn draw_body
+  \ author Samson Grice <gricemagic@cy-tech.fr>
+  \ version 0.1
+  \ date 11-12-21
+  \ brief description
+*/
+void draw_body()
+{
+    body * p = &snake_body;
+    SDL_Rect b;
+    b.w = snake_size;
+    b.h = snake_size;
+    do {
+        b.x = p->pos->x;
+  
+/*! 
+  \ fn draw_body
+  \ author Samson Grice <gricemagic@cy-tech.fr>
+  \ version 0.1
+  \ date 11-12-21
+  \ brief description
+*/
+     b.y = p->pos->y;
+        SDL_RenderFillRect(renderer, &b);
+        p = p->to;
+    }while (p != NULL);
+}
+
+/*! 
+  \ fn loop
+  \ author Samson Grice <gricemagic@cy-tech.fr>
+  \ version 0.1
+  \ date 11-12-21
+  \ brief description
+  \ return type int
+*/
+int loop()
+{
+    //Fill the surface white
+    //SDL_FillRect( screen, NULL, SDL_MapRGB( screen->format, 0xFF, 0xFF, 0xFF ) );
+
+    SDL_Event ev
+/*! 
+  \ fn loop
+  \ author Samson Grice <gricemagic@cy-tech.fr>
+  \ version 0.1
+  \ date 11-12-21
+  \ brief description
+  \ return type int
+*/
+nt;
+    int quit = 0;
+    int x,y;
+
+    while (!quit){
+        SDL_PollEvent( &event );
+        //SDL_WaitEvent(&event);
+        //SDL_Delay(50);
+
+        switch (event.type){
+        case SDL_QUIT:
+            quit = 1;
+            break;
+        case SDL_KEYDOWN:
+            state = SDL_GetKeyboardState(NULL); 
+            check_keys(state);
+            break;
+        case SDL_MOUSEBUTTONDOWN:
+            SDL_GetMouseState(&x, &y);
+            break;
+        case SDL_MOUSEMOTION:
+            SDL_GetMouseState(&x, &y);
+            break;
+        case SDL_MOUSEBUTTONUP:
+            break;
+        default:
+            break;
+        }
+        //Update the surface
+        SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+        SDL_RenderClear(renderer);
+
+        SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+        SDL_RenderFillRect(renderer, &apple);
+
+        SDL_SetRenderDrawColor(renderer, 0,0,0,255);
+        draw_body();
+        update_snake();
+        check_walls(1);
+        if (apple.x == snake_body.pos->x && apple.y == snake_body.pos->y)
+        {
+            update_body();
+            move_apple();
+        }
+
+        SDL_RenderPresent(renderer);
+    }
+
+	//Destroy window
+	SDL_DestroyWindow( window );
+
+	//Quit SDL subsystems
+	SDL_Quit();
+
+	return 0;
+}
+
+/*! 
+  \ fn main
+  \ author Samson Grice <gricemagic@cy-tech.fr>
+  \ version 0.1
+  \ date 11-12-21
+  \ brief description
+  \ return type int
+*/
+int main( int argv, char* argc[] )
+{
+    if (argv){
+        printf("%s\n", argc[argv-1]);
+        // stop warnings on Linux -Wunused-parameter 
+/*! 
+  \ fn main
+  \ author Samson Grice <gricemagic@cy-tech.fr>
+  \ version 0.1
+  \ date 11-12-21
+  \ brief description
+  \ return type int
+*/
+eeded for compiling on CodeBlocks
+    }
+    srand(time(0));
+    init();
+    move_apple();
+    loop();
+    return 0;
+}
+
+// vim:foldmethod=indent:foldlevel=0:foldnestmax=1

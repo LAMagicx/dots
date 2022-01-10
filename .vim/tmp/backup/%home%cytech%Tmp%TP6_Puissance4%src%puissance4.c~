@@ -1,0 +1,261 @@
+#include "puissance4.h"
+
+int saisieCase(void)
+{
+    int continuer = 1;
+    int retour;
+    int nb;
+    while (continuer == 1)
+    {
+        retour = scanf("%d", &nb);
+        if (retour != 0 && nb >= 0 && nb <= 4)
+        {                  // Si le nombre est compris entre 0 et 4, entier)
+            continuer = 0; // Valeur saisie est correcte
+        }
+        else
+        {
+            fprintf(stderr, "Erreur saisie, veuillez entrer un entier compris entre 0 et 4\n");
+            nb = getchar();
+        }
+    }
+    return nb;
+}
+
+void init(int ttint_plateau[N][N])
+{
+    int i;
+    int j;
+    for (i = 0; i < N; i++)
+    {
+        for (j = 0; j < N; j++)
+        {
+            ttint_plateau[i][j] = -1;
+        }
+    }
+    if (ttint_plateau == NULL)
+    { // Si la mémoire du tableau n'est pas alloué
+        printf("Erreur d'allocation \n");
+        exit(ERREUR_ALLOCATION); // Quitte le programme
+    }
+}
+
+
+void affiche(int ttint_plateau[N][N])
+{
+    int i;
+    int j;
+    printf("   0    1    2    3    4\n");
+    printf("╔════╦════╦════╦════╦════╗\n"); // Affichage début du tableau
+    for (i = 0; i < N; i++)
+    {
+        printf("║  ");
+        for (j = 0; j < N; j++)
+        {
+            switch (ttint_plateau[i][j])
+            {
+            case 1:
+                couleur("32"); // Ajout couleur verte
+                printf("X");   // Affiche Croix(X)
+                couleur("0");  // réinitialisation couleur
+                printf(" ║  ");
+                break;
+            case 2:
+                couleur("31"); // ajout couleur rouge
+                printf("O");   // Affiche rond(O)
+                couleur("0");  // réinitialisation couleur
+                printf(" ║  ");
+                break;
+            case -1:
+                printf("\033[40;38;5;240m\033[0m  ║  ");
+                break;
+            /*default : if (i == 0)
+                {
+                    printf("\033[40;38;5;240m\033[0m ║   "); 
+                }
+                if (i == 1)
+                {
+                    printf("\033[40;38;5;240m\033[0m ║   "); 
+                }
+                if (i == 2)
+                {
+                    printf("\033[40;38;5;240m\033[0m ║   "); 
+                }
+                if (i == 3)
+                {
+                    printf("\033[40;38;5;240m\033[0m ║   "); 
+                }
+                if (i == 4)
+                {
+                    printf("\033[40;38;5;240m\033[0m ║   "); 
+                }
+            break;*/
+            }
+        }
+        if (i == 0 || i == 1 || i == 2 || i == 3)
+        {
+            printf("\n╠════╬════╬════╬════╬════╣\n"); // Affichage milieu du tableau jusqu'a fin-1
+        }
+    }
+    printf("\n╚════╩════╩════╩════╩════╝\n"); // Affichage fin tableau
+}
+
+   // function to check horizontal win
+int horizontal_win(int ttint_plateau[N][N])
+{
+    int i, j;
+    for (i = 0; i < N; i++)
+    {
+        for (j = 0; j < N - 3; j++)
+        {
+            if (ttint_plateau[i][j] == 1 && ttint_plateau[i + 1][j] == 1 && ttint_plateau[i + 2][j] == 1 && ttint_plateau[i + 3][j] == 1)
+            {
+                return 1;
+            }
+            else if (ttint_plateau[i][j] == 2 && ttint_plateau[i + 1][j] == 2 && ttint_plateau[i + 2][j] == 2 && ttint_plateau[i + 3][j] == 2)
+            {
+                return 1;
+            }
+        }
+    }
+    return 0;
+}
+
+// function to check vertical win
+int vertical_win(int ttint_plateau[N][N])
+{
+    int i, j;
+    for (i = 0; i < N; i++)
+    {
+        for (j = 0; j < N - 3; j++)
+        {
+            if (ttint_plateau[i][j] == 1 && ttint_plateau[i][j + 1] == 1 && ttint_plateau[i][j + 2] == 1 && ttint_plateau[i][j + 3] == 1)
+            {
+                return 1;
+            }
+            else if (ttint_plateau[i][j] == 2 && ttint_plateau[i][j + 1] == 2 && ttint_plateau[i][j + 2] == 2 && ttint_plateau[i][j + 3] == 2)
+            {
+                return 1;
+            }
+        }
+    }
+    return 0;
+}
+
+// function to check diagonal win
+int diagonal_win(int ttint_plateau[N][N])
+{
+    int i, j;
+    for (i = 0; i < N - 3; i++)
+    {
+        for (j = 0; j < N - 3; j++)
+        {
+            if (ttint_plateau[i][j] == 1 && ttint_plateau[i + 1][j + 1] == 1 && ttint_plateau[i + 2][j + 2] == 1 && ttint_plateau[i + 3][j + 3] == 1)
+            {
+                return 1;
+            }
+            else if (ttint_plateau[i][j] == 2 && ttint_plateau[i + 1][j + 1] == 2 && ttint_plateau[i + 2][j + 2] == 2 && ttint_plateau[i + 3][j + 3] == 2)
+            {
+                return 1;
+            }
+        }
+    }
+    for (i = 3; i < N; i++)
+    {
+        for (j = 0; j < N - 3; j++)
+        {
+            if (ttint_plateau[i][j] == 1 && ttint_plateau[i - 1][j + 1] == 1 && ttint_plateau[i - 2][j + 2] == 1 && ttint_plateau[i - 3][j + 3] == 1)
+            {
+                return 1;
+            }
+            else if (ttint_plateau[i][j] == 2 && ttint_plateau[i - 1][j + 1] == 2 && ttint_plateau[i - 2][j + 2] == 2 && ttint_plateau[i - 3][j + 3] == 2)
+            {
+                return 1;
+            }
+        }
+    }
+    return 0;
+}
+
+int aGagne(int ttint_plateau[N][N])
+{
+    horizontal_win(ttint_plateau);
+    vertical_win(ttint_plateau);
+    diagonal_win(ttint_plateau);
+	printf("%d %d %d\n", horizontal_win(ttint_plateau), vertical_win(ttint_plateau), diagonal_win(ttint_plateau));
+    return horizontal_win(ttint_plateau) || vertical_win(ttint_plateau) || diagonal_win(ttint_plateau);
+}
+
+// function that adds a piece to the ttint_plateau
+void ajouter_piece(int ttint_plateau[N][N], int column, int int_joueur)
+{
+    int i;
+    for (i = N; i >= 0; i--)
+    {
+        if (ttint_plateau[i][column] == -1)
+        {
+            ttint_plateau[i][column] = int_joueur;
+            break;
+        }
+    }
+}
+
+
+int tableau_rempli(int ttint_plateau[N][N], int column)
+{
+    if (ttint_plateau[0][column] == -1)
+    {
+        return 0;
+    }
+    else
+    {
+        return 1;
+    }
+}
+
+void tourDeJeu(int ttint_plateau[N][N], int nb_tour, int int_joueur)
+{
+    int win;
+    int column;
+    int c = 1;
+    while (c == 1)
+    {
+        printf("Player %d, Entrer la colonne a jouer: ", int_joueur);
+        column = saisieCase();
+        c = tableau_rempli(ttint_plateau, column);
+        if (c == 1)
+        {
+            printf("Emplacement déjà pris veuillez ressaissir\n");
+        }
+    }
+    ajouter_piece(ttint_plateau, column, int_joueur);
+    affiche(ttint_plateau);
+    //printtab(ttint_plateau);
+    win = aGagne(ttint_plateau); // Appelle de la fonction victoire
+	printf("win = %d\n", win);
+    if (win != 0)
+    {
+        printf("\n");
+        couleur("7"); // Surligne le texte
+        printf("Le joueur %d a gagné !\n", int_joueur);
+        couleur("0");
+        exit(0);
+    }
+    else
+    {
+        int_joueur = int_joueur % 2 + 1;
+    }
+    nb_tour++; // nb_tour=nb_tour+1; Incrémente nb_tour de 1 a chaque tour
+    if (nb_tour == 25)
+    {                 // Si le nombre de tour = 10, le morpion est rempli
+        couleur("7"); // Surligne le texte
+        printf("\n");
+        printf("Egalite !\n");
+        couleur("0");
+        exit(0); // Quitte le programme
+    }
+    tourDeJeu(ttint_plateau, nb_tour, int_joueur);
+}
+
+
+
+
