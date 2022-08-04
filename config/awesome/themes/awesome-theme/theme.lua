@@ -10,7 +10,7 @@ local theme           = {}
 theme.dir             = os.getenv("HOME") .. "/.config/awesome/themes/awesome-theme"
 
 theme.icons           = theme.dir .. "/icons"
-theme.wallpaper       = theme.dir .. "/wallpapers/archbg.jpg"
+theme.wallpaper       = theme.dir .. "/wallpapers/wallpaper.png"
 theme.panel           = "png:" .. theme.icons .. "/panel/panel.png"
 theme.font            = "JetBrains Mono Bold 9"
 theme.calendar_font   = "JetBrains Mono 10"

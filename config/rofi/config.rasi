@@ -1,0 +1,117 @@
+@theme "/usr/share/rofi/themes/gruvbox-dark-hard.rasi" 
+
+/* RASI Theme
+
+
+* {
+	background:                      rgba(21,30,33,0.5);
+	bordercolor:                     rgba(0,43,54,0);
+	separatorcolor:                  rgba(0,0,0,0.6078431372549019);
+	normal-background:               rgba(253,246,227,0);
+	normal-foreground:               #002b36;
+	alternate-normal-foreground:     rgba(238,232,213,0);
+	selected-normal-background:      rgba(88,110,117,0.3764705882352941);
+	selected-normal-foreground:      #eee8d5;
+	active-background:               rgba(253,246,227,0);
+	active-foreground:               #268bd2;
+	alternate-active-background:     rgba(238,232,213,0);
+	selected-active-background:      rgba(38,139,210,0.4980392156862745);
+	selected-active-foreground:      rgba(253,246,227,0.5215686274509804);
+	urgent-background:               rgba(253,246,227,0);
+	urgent-foreground:               #dc322f;
+	alternate-urgent-background:     rgba(238,232,213,0);
+	selected-urgent-background:      #dc322f;
+	selected-urgent-foreground:      #fdf6e3;
+	alternate-normal-foreground:     @normal-foreground;
+	alternate-urgent-foreground:     @urgent-foreground;
+	alternate-active-foreground:     @active-foreground;
+	foreground:                      @normal-foreground;
+}
+
+* {
+    spacing:    2;
+    border-color: @foreground;
+    background-color: transparent;
+}
+#window {
+    border:     1;
+    padding:    5;
+    background-color: @background;
+}
+#mainbox {
+    border:  0;
+    padding: 0;
+}
+#message {
+    border:  1px dash 0px 0px ;
+    padding: 2px 0px 0px ;
+    border-color: @separatorcolor;
+}
+#textbox {
+    text-color: @foreground;
+}
+#listview {
+    border-color: @separatorcolor;
+}
+#listview {
+    fixed-height: 0;
+    border:       2px dash 0px 0px ;
+    padding:      2px 0px 0px ;
+}
+#element {
+    border: 0;
+}
+#element normal.normal {
+    text-color: @normal-foreground;
+    background-color: @normal-background;
+}
+#element normal.urgent {
+    text-color: @urgent-foreground;
+    background-color: @urgent-background;
+}
+#element normal.active {
+    text-color: @active-foreground;
+    background-color: @active-background;
+}
+#element selected.normal {
+    text-color: @selected-normal-foreground;
+    background-color: @selected-normal-background;
+}
+#element selected.urgent {
+    text-color: @selected-urgent-foreground;
+    background-color: @selected-urgent-background;
+}
+#element selected.active {
+    text-color: @selected-active-foreground;
+    background-color: @selected-active-background;
+}
+#element alternate.normal {
+    text-color: @alternate-normal-foreground;
+    background-color: @alternate-normal-background;
+}
+#element alternate.urgent {
+    text-color: @alternate-urgent-foreground;
+    background-color: @alternate-urgent-background;
+}
+#element alternate.active {
+    text-color: @alternate-active-foreground;
+    background-color: @alternate-active-background;
+}
+#scrollbar {
+    border:  0;
+    width: 4px;
+    padding: 0;
+    handle-color: @normal-foreground;
+}
+#sidebar {
+    border:       2px dash 0px 0px ;
+    border-color: @separatorcolor;
+}
+#button selected {
+    background-color: @selected-normal-background;
+    text-color:       @selected-normal-foreground;
+}
+#inputbar, case-indicator, entry, prompt, button {
+    spacing: 0;
+    text-color:      @normal-foreground;
+}

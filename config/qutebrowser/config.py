@@ -1,0 +1,180 @@
+#import setproctitle
+#setproctitle.setproctitle("qutebrowser")
+
+config.load_autoconfig(False)
+
+background_dark = '#080b0c'
+background = '#181a1b'
+foreground = '#a2a2a2'
+foreground_clear = '#cfcfcf'
+
+
+# Open new tabs in the background.
+c.tabs.background = True
+
+# Show favicons in the tab bar.
+# c.tabs.favicons.show = False
+
+# Position of new tabs opened from another tab.
+c.tabs.new_position.related = 'next'
+
+# Padding (in pixels) around text for tabs.
+c.tabs.padding = {'bottom': 8, 'left': 5, 'right': 5, 'top': 8}
+
+# Position of the tab bar.
+c.tabs.position = 'top'
+
+# Alignment of the text inside of tabs.
+c.tabs.title.alignment = 'left'
+
+# Format to use for the tab title
+# c.tabs.title.format = '{index}: {title} - {host}'
+
+# Width of tab indicators.
+c.tabs.indicator.width = 3 # Padding (in pixels) for tab indicators.
+c.tabs.indicator.padding = {'bottom': 0, 'left': 0, 'right': 5, 'top': 0}
+
+# Background color of the tab bar.
+c.colors.tabs.bar.bg = background_dark
+
+# Color gradient start for the tab indicator.
+c.colors.tabs.indicator.start = 'lightgrey'
+
+# Color gradient end for the tab indicator.
+c.colors.tabs.indicator.stop = 'lightgrey'
+
+# Color for the tab indicator on errors.
+c.colors.tabs.indicator.error = 'lightgrey'
+
+# Color gradient interpolation system for the tab indicator.
+c.colors.tabs.indicator.system = 'rgb'
+
+# Foreground color of unselected odd tabs.
+c.colors.tabs.odd.fg = foreground
+
+# Background color of unselected odd tabs.
+c.colors.tabs.odd.bg = background_dark
+
+# Foreground color of unselected even tabs.
+c.colors.tabs.even.fg = foreground
+
+# Background color of unselected even tabs.
+c.colors.tabs.even.bg = background_dark
+
+# Foreground color of selected odd tabs.
+c.colors.tabs.selected.odd.fg = foreground
+
+# Background color of selected odd tabs.
+c.colors.tabs.selected.odd.bg = background
+
+# Foreground color of selected even tabs.
+c.colors.tabs.selected.even.fg = foreground
+
+# Background color of selected even tabs.
+c.colors.tabs.selected.even.bg = background
+
+
+# Height (in pixels or as percentage of the window) of the completion.
+c.completion.height = '30%'
+
+# Padding (in pixels) for the statusbar.
+c.statusbar.padding = {'bottom': 5, 'left': 5, 'right': 5, 'top': 5}
+
+# Widgets in statusbar
+c.statusbar.widgets = ["keypress", "url", "scroll", "history", "tabs", "progress"]
+
+# Position of the status bar.
+c.statusbar.position = 'bottom'
+
+# Text color of the completion widget
+c.colors.completion.fg = foreground
+
+# Background color of the completion widget for odd rows.
+c.colors.completion.odd.bg = background
+
+# Background color of the completion widget for even rows.
+c.colors.completion.even.bg = background
+
+# Foreground color of completion widget category headers.
+c.colors.completion.category.fg = foreground_clear
+
+# Background color of the completion widget category headers.
+c.colors.completion.category.bg = background_dark
+
+# Foreground color of the selected completion item.
+c.colors.completion.item.selected.fg = foreground_clear
+
+# Background color of the selected completion item.
+c.colors.completion.item.selected.bg = background_dark
+
+# Top border color of the completion widget category headers.
+c.colors.completion.item.selected.border.top = 'black'
+
+# Bottom border color of the selected completion item.
+c.colors.completion.item.selected.border.bottom = 'black'
+
+# Foreground color of the matched text in the completion.
+c.colors.completion.match.fg = '#ff4444' #red
+
+# Color of the scrollbar handle in the completion view.
+c.colors.completion.scrollbar.fg = background
+
+# Color of the scrollbar in the completion view.
+c.colors.completion.scrollbar.bg = background
+
+# Foreground color of the statusbar.
+c.colors.statusbar.normal.fg = foreground
+
+# Background color of the statusbar.
+c.colors.statusbar.normal.bg = background
+
+# Foreground color of the statusbar in insert mode.
+c.colors.statusbar.insert.fg = background
+
+# Background color of the statusbar in insert mode.
+# c.colors.statusbar.insert.bg = '#FDE76E'
+c.colors.statusbar.insert.bg = '#796702'
+
+# Foreground color of the statusbar in private browsing mode.
+c.colors.statusbar.private.fg = 'black'
+
+# Foreground color of the statusbar in command mode.
+c.colors.statusbar.command.fg = foreground
+
+# Background color of the statusbar in command mode.
+c.colors.statusbar.command.bg = background
+
+# Default foreground color of the URL in the statusbar.
+c.colors.statusbar.url.fg = foreground
+
+# Foreground color of the URL in the statusbar on error.
+c.colors.statusbar.url.error.fg = 'orange'
+
+# Foreground color of the URL in the statusbar for hovered links.
+c.colors.statusbar.url.hover.fg = '#8DDBE0'
+
+# Foreground color of the URL in the statusbar on successful load
+c.colors.statusbar.url.success.http.fg = foreground
+
+# Foreground color of the URL in the statusbar on successful load
+c.colors.statusbar.url.success.https.fg = foreground
+
+# Foreground color of the URL in the statusbar when there's a warning.
+c.colors.statusbar.url.warn.fg = 'black'
+
+
+# CSS border value for hints.
+c.hints.border = '2px solid black'
+
+# Font color for hints.
+c.colors.hints.fg = 'white'
+
+# Background color for hints.
+c.colors.hints.bg = 'black'
+
+# Font color for the matched part of hints.
+c.colors.hints.match.fg = 'lime'
+
+c.colors.webpage.darkmode.enabled = True
+
+config.bind('<Ctrl-o>', 'open https://outline.com/{url}')

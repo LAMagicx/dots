@@ -17,7 +17,7 @@ local menubar = require("menubar")
 local hotkeys_popup = require("awful.hotkeys_popup")
 require("awful.hotkeys_popup.keys")
 
-require("widgets.volume")
+-- require("widgets.volume")
 
 
 
@@ -52,7 +52,7 @@ local theme_path = string.format("%s/.config/awesome/themes/%s/theme.lua", os.ge
 beautiful.init(theme_path)
 
 floating_terminal = "kitty --class=floating --config /home/magic/.config/kitty/no-opacity.conf"
-terminal = "kitty"
+terminal = "alacritty"
 editor = os.getenv("EDITOR") or "vim"
 browser = "firefox"
 browser2 = "chromium"
@@ -146,9 +146,10 @@ globalkeys = gears.table.join(
             end
          end,
          {description = "toggle wibox", group = "awesome"}),
+    awful.key({ modkey }, "w", function() awful.spawn.with_shell('betterlockscreen -l dim --off 60 -- --layout-pos="ix-1000:iy+1000"') end,
+            {description = "lock screen", group="awesome"}),
     awful.key({ modkey, shift}, "s", function() awful.spawn.with_shell("scrot '%d-%m_capture.png' -sfz -e 'python ~/Pictures/imager.py %d-%m_capture.png'") end,
             {description = "screenshot", group="awesome"}),
-
     awful.key({ modkey }, "z", function () awful.spawn(terminal) end,
             {description = "open terminal", group="launcher"}),
     awful.key({ modkey , shift }, "z", function () awful.spawn(floating_terminal) end,
@@ -373,6 +374,7 @@ awful.rules.rules = {
         class = {
             "feh",
             "floating",
+            "vlc",
             "Pavucontrol",  
             "Arandr",
             "Blueman-manager",
