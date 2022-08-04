@@ -31,6 +31,25 @@ Plugin 'mattn/emmet-vim'
 Plugin 'sirver/UltiSnips'
 " discord scence
 Plugin 'vimsence/vimsence'
+" tab lines
+Plugin 'Yggdroot/indentLine'
+" better javascript highlighting
+Plugin 'pangloss/vim-javascript'
+" more php
+Plugin 'shawncplus/phpcomplete.vim'
+Plugin 'TysonAndre/php-vim-syntax'
+
+Plugin 'uiiaoo/java-syntax.vim'
+
+Plugin 'godlygeek/tabular'
+Plugin 'preservim/vim-markdown'
+
+" syntax highlighting for typescript
+Plugin 'leafgarland/typescript-vim'
+
+Plugin 'posva/vim-vue'
+
+" go
 call vundle#end()        
 filetype plugin indent on
 
@@ -42,7 +61,7 @@ nnoremap <C-f> :NERDTreeFind<CR>
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * NERDTree | if argc() > 0 || exists("s:std_in") | wincmd p | endif
 " Exit Vim if NERDTree is the only window remaining in the only tab.
-" autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
+autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
 " If another buffer tries to replace NERDTree, put it in the other window, and bring back NERDTree.
 autocmd BufEnter * if bufname('#') =~ 'NERD_tree_\d\+' && bufname('%') !~ 'NERD_tree_\d\+' && winnr('$') > 1 |
     \ let buf=bufnr() | buffer# | execute "normal! \<C-W>w" | execute 'buffer'.buf | endif
@@ -100,4 +119,22 @@ let g:vimsence_file_explorer_text = 'Climbing trees'
 let g:vimsence_file_explorer_details = 'Looking for files'
 " }}}
 
+" {{{ Emmet
+let g:user_emmet_install_global = 0
+autocmd FileType html,css,js,php EmmetInstall
+let g:user_emmet_leader_key='<tab>'
 " }}}
+
+" {{{ indentline
+" let g:indentLine_color_term = 239
+" let g:indentLine_char = 'c'
+let g:indentLine_char_list = ['|', '¦', '┆', '┊']	
+let g:indentLine_concealcursor = 'inc'
+let g:indentLine_conceallevel = 2
+" }}}
+
+" {{{ php
+" }}}
+
+" }}}
+

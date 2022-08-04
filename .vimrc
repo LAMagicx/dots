@@ -34,6 +34,7 @@
 	set path+=.,**
 	set dictionary=/usr/share/dict/british-english
 	set nospell
+	set spelllang+=fr
 	set foldmethod=indent
 	set foldnestmax=1
 	set matchpairs+=<:>
@@ -54,7 +55,7 @@
 	set autoread
 	set conceallevel=1 
 	set magic
-	set backspace=indent,eol " make that backspace key work the way it should
+	set backspace=indent,eol,start " make that backspace key work the way it should
 	set shell=zsh
 " }}}
 
@@ -108,7 +109,11 @@ endfunction
 	autocmd Filetype css setlocal omnifunc=csscomplete#CompleteTags
 	autocmd Filetype python setlocal omnifunc=pythoncomplete#CompleteTags
 	autocmd Filetype c setlocal omnifunc=ccomplete#CompleteTags
-	autocmd Filetype java setlocal omnifunc=javacomplete#CompleteTags
+	autocmd Filetype php setlocal omnifunc=phpcomplete#CompletePHP
+	" autocmd Filetype java setlocal omnifunc=javacomplete#CompleteTags
+	autocmd Filetype java setlocal omnifunc=javacomplete#Complete
+	autocmd Filetype java setlocal listchars=tab:\|\ 
+	autocmd Filetype java hi! link SpecialKey FoldColumn
 	autocmd Filetype markdown setlocal spell
 	autocmd Filetype haskell set softtabstop=2
 	autocmd Filetype haskell set shiftwidth=2
@@ -116,8 +121,10 @@ endfunction
 	autocmd Filetype haskell set expandtab
 	autocmd Filetype python nnoremap <f5> :w <cr>:!clear <cr>:!python3 -i % <cr>
 	autocmd Filetype haskell nnoremap <f5> :w <cr>:!clear <cr>:!runhaskell % <cr>
+	autocmd Filetype php nnoremap <f5> :w <cr>:!clear <cr>:!php -a -d auto_prepend_file=% <cr>
 	autocmd Filetype c nnoremap <f5> :w <cr>:!clear <cr>:!make && ./run<cr>
 	autocmd Filetype c nnoremap <f6> :w <cr>:!clear <cr>:!gcc test.c && ./a.out<cr>
+	autocmd Filetype json nnoremap pp :%!python -m json.tool<cr>
 
 " }}}
 
@@ -172,6 +179,7 @@ au VimLeave * silent !xmodmap -e 'clear Lock' -e 'keycode 0x42 = Caps_Lock'
 	" autocmd Filetype c,python inoremap <cr>>	><cr>
 	autocmd Filetype c,cpp nnoremap <leader>f i/*!<cr>\ file filename<cr>\ author Samson Grice <gricemagic@cy-tech.fr><cr>\ version 0.1<cr>\ date <esc>:pu=strftime('%m/%d/%y')<cr>i<bs><esc>A<cr>\ brief z<cr><bs>*/<cr><esc>?z<cr>:nohl<cr>xA
 	autocmd Filetype c,cpp nnoremap <leader>F i/*!<cr>\ file filename<cr>\ author Samson Grice <gricemagic@cy-tech.fr><cr>\ version 0.1<cr>\ date <esc>:pu=strftime('%m/%d/%y')<cr>i<bs><esc>A<cr>\ brief z<cr>\ param None<cr>\ return 0 if all good<cr><bs>*/<cr><esc>?z<cr>:nohl<cr>xA
+	autocmd Filetype php inoremap ?php <?php<cr><cr><cr>?><esc>kI
 
 	" doxycomments
 	autocmd Filetype c,cpp nnoremap <leader>c :w<cr>:! generate-doxygen-comments.py %<cr><cr>
@@ -184,6 +192,7 @@ au VimLeave * silent !xmodmap -e 'clear Lock' -e 'keycode 0x42 = Caps_Lock'
 	nnoremap ; :
 	nnoremap <c-z> :so $MYVIMRC<CR>
 	inoremap jk <esc>
+	inoremap <c-return> <esc>o
 	nnoremap n nzz
 	nnoremap N Nzz
 	nnoremap <c-j> <c-w>j
@@ -204,7 +213,7 @@ au VimLeave * silent !xmodmap -e 'clear Lock' -e 'keycode 0x42 = Caps_Lock'
 	vnoremap <leader>S y:execute @@<cr>
 	nnoremap <leader>S ^vg_y:execute @@<cr>
 	nnoremap <leader><Space> :let @/ = ""<cr>
-	inoremap <c-f> <c-x><c-f>
+	" inoremap <c-f> <c-x><c-f>
 	nnoremap <Space><Space> %
 	
 	" toredo
@@ -220,6 +229,9 @@ au VimLeave * silent !xmodmap -e 'clear Lock' -e 'keycode 0x42 = Caps_Lock'
 	nnoremap <c-t><c-r> <c-w>}
 	" closes preview tag
 	nnoremap <c-t><c-f> <c-w><c-z>
+	nnoremap <c-l> :!pandoc % -o out.pdf<cr><cr>
+
+	imap <c-d> jk[s1z=wi
 
 	map <leader>w :e ~/Tmp/buffer<cr>
 	map <leader>x :e ~/Tmp/buffer.md<cr>
