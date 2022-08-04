@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title></title>
+	<link href="style.css" rel="stylesheet" />
+</head>
+<body>
+
+	<svg width="200" height="120" viewBox="0 0 200 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+	<g id="Triangles" clip-path="url(#clip0_2:2)">
+	<g id="dark">
+	<path id="dark1" d="M60 56.5359C62.6667 58.0755 62.6667 61.9245 60 63.4641L19.5 86.8468C16.8333 88.3864 13.5 86.4619 13.5 83.3827L13.5 36.6173C13.5 33.5381 16.8333 31.6136 19.5 33.1532L60 56.5359Z" fill-opacity="0.61"/>
+	</g>
+	<g id="light">
+	<path id="light2" d="M60 56.5359C62.6667 58.0755 62.6667 61.9245 60 63.4641L19.5 86.8468C16.8333 88.3864 13.5 86.4619 13.5 83.3827L13.5 36.6173C13.5 33.5381 16.8333 31.6136 19.5 33.1532L60 56.5359Z" fill-opacity="0.61"/>
+	<path id="light1" d="M60.5 56.8468C63.1667 58.3864 63.1667 62.2354 60.5 63.775L20 87.1577C17.3333 88.6973 14 86.7728 14 83.6936L14 36.9282C14 33.849 17.3333 31.9245 20 33.4641L60.5 56.8468Z" fill-opacity="0.61"/>
+	</g>
+	</g>
+	<defs>
+	<clipPath id="clip0_2:2">
+	<rect width="200" height="120" fill="white"/>
+	</clipPath>
+	</defs>
+	</svg>
+
+
+</body>
+<script src="script.js"></script>
+</html>

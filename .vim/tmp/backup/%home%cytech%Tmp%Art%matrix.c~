@@ -1,0 +1,99 @@
+#include <ncurses.h>
+#include <stdlib.h>
+#include <time.h>
+#include <unistd.h>
+
+
+int r,c,nrows,ncols,character_range;
+
+struct column{
+    int col;
+    int row;
+    int column_length; 
+    float y;
+    int dy;
+};
+
+
+struct column create_new_column(){
+    int length = 5+rand()%25;
+    struct column line = {rand()%ncols, -length, length, -(float)length, 1.0};
+    return line;
+}
+
+void draw(struct column line){
+    move(line.row-1,line.col);
+    delch();
+    insch(' ');
+    for (int i=0;i<line.column_length;i++){
+        if (line.row+i<nrows){
+            move(line.row+i,line.col);
+            delch();
+            attrset(A_BOLD | COLOR_PAIR(1));
+            insch(33+rand()%93);
+        }
+    }
+}
+
+
+int main(){
+    // system("wmctrl -r ':ACTIVE:' -b toggle,fullscreen");
+    srand(time(NULL));
+    character_range=128;
+    
+    WINDOW *screen;
+    screen = initscr();
+    cbreak();
+    noecho();
+    getmaxyx(screen, nrows, ncols);
+    clear();                        // clear screen cursor (0,0)
+    // has_color(); test
+    if (has_colors() == FALSE)
+    {
+        mvprintw(7, 50, "Your terminal does not support color \n");
+    }
+    refresh();                      // implement all new changes
+    use_default_colors();
+    start_color();
+    init_color(COLOR_GREEN, 100, 255, 90);
+    init_color(COLOR_CYAN, 200, 255, 200);
+    //init_color(COLOR_BLACK, 9,9,9);
+    //wbkgd(screen, COLOR_BLACK);
+    init_pair(1, COLOR_GREEN,-1);
+    init_pair(2, COLOR_CYAN,-1);
+    curs_set(0);
+    int n = 100;
+    struct column *lines = malloc(sizeof(struct column)*n);
+    int i;
+    for (i=0; i<n;i++){
+        lines[i] = create_new_column();
+    }
+    FILE* f = fopen("out", "w");
+    if (f ==NULL){
+        system("echo 'cant open file' >out");
+    }
+    while (1){ 
+       for (i=0; i<n;i++){
+            draw(lines[i]);
+            lines[i].y += lines[i].dy;
+            fprintf(f, "%f:%d\n", lines[i].y, lines[i].row);
+            lines[i].row = lines[i].y;
+            if (lines[i].row == nrows){
+                lines[i] = create_new_column();
+            }
+        }
+        refresh();
+        usleep(90000);
+        for (i=0; i<ncols;i++){
+            move(nrows-1,i);
+            delch();
+            insch(' ');
+        }
+    }
+    fclose(f);
+
+
+    getch();
+    endwin();
+
+}

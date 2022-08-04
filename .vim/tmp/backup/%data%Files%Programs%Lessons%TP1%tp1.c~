@@ -1,0 +1,29 @@
+/*! 
+  \ file tp1.c
+  \ author Samson Grice <gricemagic@cy-tech.fr>
+  \ version 0.1
+  \ date 11-10-21
+  \ brief DESCRIPTION
+  \ remarks none
+*/
+#include <stdio.h>
+#include <stdlib.h>
+
+
+/*! 
+  \ fn main
+  \ author Samson Grice <gricemagic@cy-tech.fr>
+  \ version 0.1
+  \ date 11-10-21
+  \ brief description
+  \ return type int
+  \ param argc of type int
+*/
+int main(int argc, char ** argv) {
+    if (argv){
+        printf("%s\n", argc[argv-1]);
+        // stop warnings on Linux 
+    }
+	printf("Hello World\n");
+	return 0;
+}

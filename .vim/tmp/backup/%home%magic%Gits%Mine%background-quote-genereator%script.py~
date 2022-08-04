@@ -1,0 +1,61 @@
+#!/bin/python3
+
+import re, random, imgkit
+from html2image import Html2Image
+
+IMG_PATH = "~/.config/awesome/themes/awesome-theme/wallpapers/wallpaper.png"
+
+html = """
+<style>
+body {
+	padding: 0;
+	margin: 0;
+	background-color: {COLOR};
+	color: #eee;
+}
+div {
+	font-family: monospace;
+	width: 800px;
+	min-height: 400px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	font-size: 2em;
+	transform: translate(-50%, -50%);
+}
+</style>
+
+<body>
+	<div>
+		<h1>{QUOTE}</h1>
+		<h4>{AUTHOR}</h4>
+	</div>
+</body>
+"""
+
+def randomQuote(quote):
+    q = random.choice(quote)
+    return q['author'], q['quote']
+
+def createImage(html,quote, author, img, color='#111'):
+   html = html.replace('{COLOR}', color) 
+   html = html.replace('{QUOTE}', quote) 
+   html = html.replace('{AUTHOR}', author) 
+   hti = Html2Image()
+   hti.screenshot(html_str=html, save_as=img, size=(1920,1080))
+
+
+lines = open('quotes.txt', 'r').readlines()
+quotes = []
+for quote in lines:
+    if ' - ' in quote:
+        s = re.split(' - ', quote)
+        if len(s) == 2:
+            q,a = s
+            quotes.append({'quote':re.compile('["\n]').sub('',q),'author':a})
+    elif quote != ' ':
+        quotes.append({'quote':re.compile('["\n]').sub('',quote),'author':''})
+
+a,q = randomQuote(quotes)
+createImage(html,q,a, "image.png")
+os.system("cp image.png {}".format(IMG_PATH))

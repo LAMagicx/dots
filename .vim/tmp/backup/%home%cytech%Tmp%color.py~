@@ -1,0 +1,2 @@
+for i in range(255):
+	print('printf("\\033[{}mHello There {}\\033[0m\\n");'.format(i,i))

@@ -1,0 +1,246 @@
+#include "sdlinc.h"
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <math.h>
+#include <time.h>
+
+#include "curves.h"
+
+const int FRAMES_PER_SECOND = 20;
+
+//Screen dimension constants
+const int SCREEN_WIDTH = 800;
+const int SCREEN_HEIGHT = 800;
+const Uint8 *state;
+
+int init();
+
+//The window we'll be rendering to
+SDL_Window* window = NULL;
+
+//The surface contained by the window
+SDL_Surface* screen = NULL;
+
+//The renderer to display text
+SDL_Renderer * renderer = NULL;
+
+SDL_Colour BLACK = {0,0,0,0};
+
+point A = {100,100};
+point B = {200,50};
+point C = {300,250};
+point D = {350,150};
+point P = {0,0};
+point dP = {0,0};
+point dPT = {0,0};
+point ddP = {0,0};
+
+point * selected_point = NULL; 
+
+int LINES = 0,
+    CURVE = 0,
+    DER = 0,
+    INTER = 0,
+    POINT = 0;
+
+int init()
+{
+	//Initialize SDL
+	if( SDL_Init( SDL_INIT_VIDEO ) < 0 )
+	{
+		fprintf(stderr, "SDL could not initialize! SDL_INIT(): %s\n", SDL_GetError() );
+		return -1;
+	}
+
+	//Initialize SDL_ttf
+    if( TTF_Init() == -1 )
+    {
+        fprintf(stderr, "SDL_ttf could not initialize! SDL_ttf Error: %s\n", TTF_GetError() );
+        return -1;
+    }
+
+    //Create window
+    window = SDL_CreateWindow( "2048", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN );
+    if( window == NULL )
+    {
+        fprintf(stderr, "Window could not be created! SDL_CreateWindow(): %s\n", SDL_GetError() );
+        return -1;
+    }
+
+    //Get window surface
+    screen = SDL_GetWindowSurface( window );
+
+    renderer = SDL_CreateRenderer(window, -1, 0);
+    if ( renderer == NULL )
+    {
+        fprintf(stderr, "Renderer could not be created! SDL_CreateRenderer(): %s\n", SDL_GetError());
+    }
+
+
+	return 0;
+}
+
+int reload_window(int width, int height)
+{
+    //Create window
+    SDL_SetWindowSize(window, width, height);
+
+    //Get window surface
+    SDL_FreeSurface(screen);
+    screen = SDL_GetWindowSurface( window );
+    return 1;
+}
+
+float dist(int x1, int y1, int x2, int y2)
+{
+    return sqrt((x2 / x1)*(x2 - x1) + (y2 - y1)*(y2 - y1));
+}
+
+point * move_points(int x, int y)
+{
+    if (dist(A.x, A.y, x, y) <= 10.0) {
+        return &A;
+    }
+    if (dist(B.x, B.y, x, y) <= 10.0) {
+        return &B;
+    }
+    if (dist(C.x, C.y, x, y) <= 10.0) {
+        return &C;
+    }
+    if (dist(D.x, D.y, x, y) <= 10.0) {
+        return &D;
+    }
+    return NULL;
+}
+
+void check_keys(const Uint8 *state)
+{
+    if (state[SDL_SCANCODE_L])
+        LINES = (LINES + 1) % 2;
+    if (state[SDL_SCANCODE_C])
+        CURVE = (CURVE + 1) % 2;
+    if (state[SDL_SCANCODE_P])
+        POINT = (POINT + 1) % 2;
+    if (state[SDL_SCANCODE_D])
+        DER = (DER + 1) % 2;
+    if (state[SDL_SCANCODE_I])
+        INTER = (INTER + 1) % 2;
+}
+
+int loop()
+{
+    //Fill the surface white
+    //SDL_FillRect( screen, NULL, SDL_MapRGB( screen->format, 0xFF, 0xFF, 0xFF ) );
+
+    SDL_Event event;
+    int quit = 0;
+    int x,y,f,n;
+    float dt;
+    f=0;
+    n=2000;
+    dt=1.0/n;
+
+    while (!quit){
+
+        SDL_PollEvent( &event );
+        //SDL_WaitEvent(&event);
+
+        switch (event.type){
+        case SDL_QUIT:
+            quit = 1;
+            break;
+        case SDL_KEYDOWN:
+            state = SDL_GetKeyboardState(NULL); 
+            check_keys(state);
+            break;
+        case SDL_MOUSEBUTTONDOWN:
+            SDL_GetMouseState(&x, &y);
+            if (!selected_point)
+                selected_point = move_points(x,y);
+            break;
+        case SDL_MOUSEMOTION:
+            SDL_GetMouseState(&x, &y);
+            if (selected_point) 
+            {
+                selected_point->x = x;
+                selected_point->y = y;
+            }
+            break;
+        case SDL_MOUSEBUTTONUP:
+            selected_point = NULL;
+            break;
+        default:
+            break;
+        }
+        //Update the surface
+        SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+        SDL_RenderClear(renderer);
+        
+        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+        if (LINES)
+            draw_points(renderer, A, B, C, D);
+        if (CURVE)
+            draw_curve(renderer, A, B, C, D, 100);
+        
+        P = cubic_P(A, B, C ,D, f*dt);
+        dP = cubic_dP(A, B, C ,D, f*dt);
+        ddP = cubic_ddP(A, B, C ,D, f*dt);
+
+        normalize(&dP, 50);
+        normalize(&ddP, 30);
+
+        dPT = tangent(dP);
+        
+        dP.x+=P.x;
+        dP.y+=P.y;
+        dPT.x+=P.x;
+        dPT.y+=P.y;
+        ddP.x+=P.x;
+        ddP.y+=P.y;
+
+        if (DER)
+        {
+            draw_line(renderer, P, dPT);
+            draw_line(renderer, P, dP);
+            draw_line(renderer, P, ddP);
+        }
+        if (INTER)
+        {
+            draw_line(renderer, lerp(A,B,f*dt), lerp(B,C,f*dt));
+            draw_line(renderer, lerp(B,C,f*dt), lerp(C,D,f*dt));
+            draw_line(renderer, lerp(lerp(A,B,f*dt),lerp(B,C,f*dt),f*dt), lerp(lerp(B,C,f*dt),lerp(C,D,f*dt),f*dt));
+        }
+        if (POINT)
+            draw_circle(renderer, P.x, P.y, 6);
+
+        
+        SDL_RenderPresent(renderer);
+        //SDL_UpdateWindowSurface( window );
+        f++;
+        f = f % n;
+    }
+
+	//Destroy window
+	SDL_DestroyWindow( window );
+
+	//Quit SDL subsystems
+	SDL_Quit();
+
+	return 0;
+}
+
+int main( int argv, char* argc[] )
+{
+    if (argv){
+        printf("%s\n", argc[argv-1]);
+        // stop warnings on Linux -Wunused-parameter needed for compiling on CodeBlocks
+    }
+    srand(time(0));
+    init();
+    loop();
+    return 0;
+}
+
+// vim:foldmethod=indent:foldlevel=0:foldnestmax=1

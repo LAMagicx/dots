@@ -1,0 +1,12 @@
+#ifndef __AI_H__
+#define __AI_H__
+
+#include "matrix.h"
+#include "connect.h"
+#define INF 1000000000
+
+int ai(matrixType ** M, int n, int m, int player, int maxDepth);
+
+int playSpot(matrixType ** M, int c, int n, int m, int player);
+
+#endif

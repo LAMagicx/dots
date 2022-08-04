@@ -1,0 +1,37 @@
+#include "connect.h"
+
+void enterInteger(int * x){
+	// EX1
+	int out;
+	do {
+		out = scanf("%d", x);
+	}while (out == 0);
+}
+
+void playRound(matrixType ** M, int n, int m) {
+	int player;
+	player = rand()%2 + 1;
+	int won;
+	do {
+		printMatrix(M, n, m);
+		M = play(M, n, m, player);
+		won = checkWin(M, n, m);
+		player = player % 2 + 1 ;
+	}while (won == 0);
+
+	printf("player %d has won\n", won);
+}
+
+int main(int argc, char ** argv) {
+    if (argv){
+        printf("%s\n", argc[argv-1]);
+        // stop warnings on Linux
+    }
+
+	srand(time(0));
+
+	matrixType ** M;
+	M = createMatix(4, 4);
+	playRound(M, 4, 4);
+	return 0;
+}

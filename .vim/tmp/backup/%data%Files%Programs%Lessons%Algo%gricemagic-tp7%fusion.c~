@@ -1,0 +1,85 @@
+/*! 
+  \file fusion.c
+  \author Samson Grice <gricemagic@cy-tech.fr>
+  \version 0.1
+  \date 12-12-21
+  \brief DESCRIPTION
+  \remarks REMARKS
+*/
+#include "tp7.h"
+
+/*! 
+  \fn copierSousTableau
+  \author Samson Grice <gricemagic@cy-tech.fr>
+  \version 0.1
+  \date 12-12-21
+  \brief DESCRIPTION
+  \return type int *
+  \param src of type int *
+  \param debut of type int
+  \param fin of type int
+*/
+int * copierSousTableau(int * src, int debut, int fin) {
+	int * dest = calloc(fin-debut, sizeof(int));
+	int i;
+	for (i=0; i<fin-debut; i++) {
+		*(dest+i) = *(src+debut+i);
+	}
+	return dest;
+}
+
+/*! 
+  \fn fusion
+  \author Samson Grice <gricemagic@cy-tech.fr>
+  \version 0.1
+  \date 12-12-21
+  \brief DESCRIPTION
+  \param tab1 of type int *
+  \param taille1 of type int
+  \param tab2 of type int *
+  \param taille2 of type int
+  \param tabRes of type int *
+*/
+void fusion(int *tab1, int taille1, int * tab2, int taille2, int * tabRes) {
+	int i;
+	int j;
+	int k;
+	j=0;
+	k=0;
+	for (i=0; i<taille1+taille2; i++) {
+		if (j >= taille1){
+			tabRes[i] = tab2[k];
+			k++;
+		}else if (k >= taille2) {
+			tabRes[i] = tab1[j];
+			j++;	
+		}else if (tab1[j] < tab2[k]) {
+			tabRes[i] = tab1[j];
+			j++;
+		}else{
+			tabRes[i] = tab2[k];
+			k++;
+		}
+	}
+}
+
+/*! 
+  \fn triFusion
+  \author Samson Grice <gricemagic@cy-tech.fr>
+  \version 0.1
+  \date 12-12-21
+  \brief DESCRIPTION
+  \param tab of type int *
+  \param taille of type int
+*/
+void triFusion(int * tab, int taille) {
+	if (taille != 1) {
+		int* tab1;
+		int* tab2;
+		tab1 = copierSousTableau(tab, 0, taille / 2);
+		tab2 = copierSousTableau(tab, taille / 2, taille);
+		triFusion(tab1, taille / 2);
+		triFusion(tab2, taille - taille / 2);
+		fusion(tab1, taille / 2, tab2, taille - taille / 2, tab);
+	}
+}

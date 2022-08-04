@@ -1,5 +1,8 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhistcnt =1
+let g:netrw_dirhistcnt =4
+let g:netrw_dirhist_4='/home/magic'
+let g:netrw_dirhist_3='/home/magic/Gits'
+let g:netrw_dirhist_2='/home/magic/.config/neofetch'
 let g:netrw_dirhist_1='/home/cytech/.zsh'
 let g:netrw_dirhist_0='/home/cytech/Gits/Mine/doxygen-comments'
 let g:netrw_dirhist_9='/home/cytech/.local/bin'
@@ -7,6 +10,3 @@ let g:netrw_dirhist_8='/usr/share/vim/vim81/doc'
 let g:netrw_dirhist_7='/usr/share/vim/vim81'
 let g:netrw_dirhist_6='/home/cytech'
 let g:netrw_dirhist_5='/usr/share/vim/vim81/doc'
-let g:netrw_dirhist_4='/home/cytech'
-let g:netrw_dirhist_3='/home/cytech/.config/neofetch'
-let g:netrw_dirhist_2='/home/cytech/Gits/Mine/lamagicx.eu/pages'

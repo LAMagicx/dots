@@ -1,0 +1,20 @@
+TARGET=TP1
+CC=gcc
+CFLAGS= -Wall -Wextra -pedantic -lm
+
+.PHONY: default all clean
+
+OBJS=$(patsubst %.c, %.o, $(wildcard *.c))
+DEPS=$(wildcard *.h)
+
+%.o: %.c $(DEPS)
+	$(CC) $(CFLAGS) -c $< -o $@
+
+$(TARGET): $(OBJS)
+	$(CC) $(OBJS) $(CFLAGS) -o $(TARGET)
+
+default: $(TARGET)
+all: default
+
+clean:
+	-rm -f *.o

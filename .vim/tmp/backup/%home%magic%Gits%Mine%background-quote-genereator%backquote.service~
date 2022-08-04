@@ -1,0 +1,11 @@
+[Unit]
+Description=genereates a new background
+
+[Service]
+User=magic
+WorkingDirectory=~/Gits/Mine/background-quote-genereator
+ExecStart=script.py
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

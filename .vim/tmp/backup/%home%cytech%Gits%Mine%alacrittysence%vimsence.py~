@@ -1,0 +1,106 @@
+import json
+import logging
+import os
+import re
+import time
+
+import rpc
+import utils as u
+
+def update_presence():
+    'Update presence in Discord'
+
+    if rpc_obj is None or not rpc_obj.connected:
+        # If we're flagged as disconnected, skip all this processing and save some CPU cycles.
+        print("disconnected")
+        return
+
+    activity = base_activity
+
+    large_image = ''
+    large_text = ''
+    details = 'lol'
+    state = 'why dont you work ?'
+
+    # Update the activity
+    activity['assets']['large_image'] = large_image
+    activity['assets']['large_text'] = large_text
+    activity['details'] = details
+    activity['state'] = state
+
+    try:
+        rpc_obj.set_activity(activity)
+        print("good")
+    except BrokenPipeError:
+        # Connection to Discord is lost
+        print("connection to discord is lost")
+        pass
+    except NameError:
+        # Discord is not running
+        print("discord is not running")
+        pass
+    except OSError:
+        # IO-related issues (possibly disconnected)
+        print("something else ?")
+        pass
+
+
+def reconnect():
+    'Reconnect presence'
+
+    if rpc_obj is None:
+        logger.error('The plugin hasn\'t connected yet')
+        return
+    if rpc_obj.reconnect():
+        update_presence()
+
+
+def disconnect():
+    'Disconnect presence'
+
+    if rpc_obj is None:
+        logger.error('The plugin hasn\'t connected yet')
+        return
+    try:
+        if rpc_obj.connected:
+            rpc_obj.close()
+    except Exception:
+        pass
+
+if __name__ == "__main__" :
+	logger = logging.getLogger(__name__)
+
+# Get small text and images from vim config
+
+	start_time = int(time.time())
+	base_activity = {
+	'details': 'Why is the',
+	'state': 'vim not changing ?!?',
+	'timestamps': {
+		'start': start_time
+		#'end': start_time+100
+	},
+	'assets': {
+		'small_text': "Defaut",
+		'small_image': "Defaut",
+	}
+	}
+
+	client_id = '832028561921409104'
+
+	ignored_file_types = -1
+	ignored_directories = -1
+
+# Pre-initialization to deal with artifacts from slow initialization
+	rpc_obj = None
+	try:
+	rpc_obj = rpc.DiscordIpcClient.for_platform(client_id)
+	rpc_obj.set_activity(base_activity)
+	print("good")
+	except Exception:
+	print("bad")
+# Discord is not running.
+# The session is initialized and can be re-used later.
+	pass
+
+

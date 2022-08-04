@@ -1,0 +1,3 @@
+cd ~/Gits/Mine/background-quote-genereator; ./script.py
+betterlockscreen -u ~/.config/awesome/themes/awesome-theme/wallpapers/wallpaper.png
+cd ~

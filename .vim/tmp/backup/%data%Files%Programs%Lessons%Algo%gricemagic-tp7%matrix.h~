@@ -1,0 +1,13 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct {
+	int  * data;
+	int n;	
+}matrix;
+
+matrix createMatrix(int n);
+
+void initMatrix(matrix * M, int n);
+
+void printMatrix(matrix M, int n);

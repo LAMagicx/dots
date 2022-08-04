@@ -1,0 +1,40 @@
+body {
+	display: flex;
+	justify-content: center;
+	flex-flow: column nowrap;
+	background-color: #1c1c1c;
+}
+
+#main {
+	display: flex;
+	justify-content: center;
+	flex-flow: column nowrap
+}
+
+#main > div {
+	width: 90vw;
+	min-height: 50px;
+	height: auto;
+	display: block;
+	text-align: center;
+	margin: auto;
+    color: white;
+}
+
+input {
+	mix-blend-mode: difference;
+    color: white;
+	border: none;
+	outline: none;
+	background-color: rgba(0,0,0,0);
+}
+
+input:focus {
+	border: none;
+}
+
+button {
+	max-width: 300px;
+	margin: auto;
+
+}

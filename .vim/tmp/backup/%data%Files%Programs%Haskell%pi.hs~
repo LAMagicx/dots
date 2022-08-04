@@ -1,0 +1,11 @@
+p 1 = 1
+p n = 1 / (a*a) + p (n-1)
+  where a = fromIntegral n :: Double
+
+pia n = sqrt(6 * go (n 1))
+  where 
+    go n a | n == 1 = 1
+           | n /= 1 = go ((n-1) (a + 1/(b*b))) 
+           where b = fromIntegral n :: Double
+main = do
+  print (pii 10000000)

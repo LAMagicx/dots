@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>title</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js"></script>
+  </head>
+  <body>
+		<div id="main">
+		</div>
+		<button onlick="addDiv()">add</button>
+  </body>
+</html>
+
+<!-- vim: ts=2 sw=2 sts=2 fl=2

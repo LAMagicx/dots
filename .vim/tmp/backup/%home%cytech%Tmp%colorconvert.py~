@@ -1,0 +1,45 @@
+from colortrans import CLUT
+from math import sqrt
+
+def hex_to_rgb(value):
+    value = value.lstrip('#')
+    lv = len(value)
+    return tuple(int(value[i:i + lv // 3], 16) for i in range(0, lv, lv // 3))
+
+random.py
+
+
+def rgb_to_hex(rgb):
+    return '#%02x%02x%02x' % rgbo
+
+
+def hex_to_short(value):
+	if value.startswith("#"):
+		value = value[1:]
+	if len(value) != 6:
+		print(value, "not hexadecimal")
+	if not all([c in '1234567890ABCDEFabcdef' for c in value]):
+		print(value, "not hexadecimal")
+
+	r,g,b = hex_to_rgb(value)
+	return find_closest_short(r,g,b)
+	
+
+def find_closest_short(r,g,b):
+	closest_index = 0
+	closest_distance = 256*256
+	for i, h in CLUT:
+		hr,hg,hb = hex_to_rgb(h)
+		d = dist(r,g,b, hr,hg,hb)
+		if d < closest_distance:
+			closest_index = int(i)
+			closest_distance = d
+	
+	r = list(CLUT[closest_index])
+	r.reverse()
+	r.append(hex_to_rgb(r[0]))
+	return r
+
+
+def dist(x,y,z, m,n,o):
+	return sqrt((m-x)**2 + (n-y)**2 + (o-z)**2)

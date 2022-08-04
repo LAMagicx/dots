@@ -1,0 +1,13 @@
+#ifndef __PI__
+#define __PI__
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+#include <time.h>
+#include <float.h>
+#include <sys/types.h>
+
+double pi_random(long int n);
+double pi_madhava(long int n);
+double pi_john(long int n);
+#endif

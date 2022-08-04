@@ -1,0 +1,286 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+//#define SIZE 10
+
+int SIZE;
+
+int count_neighbors(int * mines, int pos){
+        int count = 0, index;
+        int i_start=-1;
+        int i_end = 1;
+        int j_start = -1;
+        int j_end = 1;
+
+        if (pos%SIZE == 0){
+            j_start = 0;
+        }
+        if (pos < SIZE){
+            i_start = 0;
+        }
+        if (pos%SIZE == SIZE-1){
+            j_end = 0;
+        }
+        if (pos >= SIZE*(SIZE-1)){
+            i_end = 0;
+        }
+
+        for (int i = i_start; i <= i_end; i++) {
+            for (int j = j_start; j <= j_end; j++){
+                index = pos+(i*SIZE)+j;
+                if (index != pos){
+                    if (index >= 0 && index < SIZE*SIZE){
+
+                        if (mines[index] == 1){
+                            count++;
+                        }
+                    }
+                }
+            }
+        }
+        return count;
+}
+
+int * create_grid_mines(int number_of_mines){
+    int * grid = calloc(SIZE*SIZE, sizeof(int));
+    int r;
+    for (int i = 0; i < number_of_mines; i++) {
+        do {
+            r = rand()%(SIZE*SIZE);
+        } while((0 > r || r > SIZE*SIZE) || grid[r] == 1);
+        grid[r] = 1;
+    }
+    return grid;
+}
+
+int * create_grid_numbers(int * mines){
+    int * nums = calloc(SIZE*SIZE, sizeof(int));
+    for (int i = 0; i < SIZE*SIZE; i++) {
+        nums[i] = count_neighbors(mines, i);
+    }
+    return nums;
+}
+
+int * create_grid_show(){
+    int * grid = calloc(SIZE*SIZE, sizeof(int));
+    return grid;
+}
+
+void show_mines(int * grid){
+    char c;
+    printf(" ");
+    for (int i = 0; i < SIZE; i++) {
+        printf("%c ", 65+i);
+    }
+    printf("\n0");
+    for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j < SIZE; j++) {
+            if (grid[i*SIZE+j] == 1){
+                c = 'X';
+            }else{
+                c = ' ';
+            }
+            printf("%c ", c);
+        }
+        printf("\n%c",49+i);
+    }
+}
+
+void show_nums(int * grid, int * mines){
+    char c;
+    printf(" ");
+    for (int i = 0; i < SIZE; i++) {
+        printf("%c ", 65+i);
+    }
+    printf("\n0");
+    for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j < SIZE; j++) {
+            if (mines[i*SIZE+j] == 1){
+                c = ' ';
+            }else if (grid[i*SIZE+j] != 0){
+                c = grid[i*SIZE+j] + 48;
+            }else{
+                c = ' ';
+            }
+            printf("%c ", c);
+        }
+        printf("\n%c",49+i);
+    }
+}
+
+void show_show(int * grid){
+    char c;
+    printf(" ");
+    for (int i = 0; i < SIZE; i++) {
+        printf("%c ", 65+i);
+    }
+    printf("\n0");
+    for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j < SIZE; j++) {
+            if (grid[i*SIZE+j] == 0){
+                c = ' ';
+            }else if (grid[i*SIZE+j] == -1){
+                c = 'X';
+            }else if (grid[i*SIZE+j] == -2){
+                c = 'O';
+            }else{
+                c = grid[i*SIZE+j] + 48;
+            }
+            printf("%c ", c);
+        }
+        printf("\n%c",49+i);
+    }
+}
+
+int update(int * mines, int * nums, int * show, int * check,int index, int depth){
+    int res = 1, index2;
+
+    if (mines[index] == 1){
+        if (depth == 0){
+            show[index] = -1;
+            res = 0;
+        }
+    }else if (nums[index] == 0 && check[index] == 0){
+        check[index] = 1;
+
+        int i_start=-1;
+        int i_end = 1;
+        int j_start = -1;
+        int j_end = 1;
+        if (index%SIZE == 0){
+            j_start = 0;
+        }
+        if (index < SIZE){
+            i_start = 0;
+        }
+        if (index%SIZE == SIZE-1){
+            j_end = 0;
+        }
+        if (index >= SIZE*(SIZE-1)){
+            i_end = 0;
+        }
+        for (int i = i_start; i <= i_end; i++) {
+            for (int j = j_start; j <= j_end; j++){
+                index2 = index+(i*SIZE)+j;
+                if (index2 != index){
+                    if (index2 >= 0 && index2 < SIZE*SIZE && check[index2] == 0){
+                        update(mines, nums, show, check, index2, depth+1);
+                    }
+                }
+            }
+        }
+    }else{
+        //printf("%d %d\n", index, nums[index]);
+        show[index] = nums[index];
+    }
+    return res;
+}
+
+int get_row(){
+    int r;
+    printf("Please enter row\n");
+    scanf(" %d", &r);
+    return r;
+}
+
+char get_col(){
+    char r;
+    printf("Please enter col\n");
+    scanf(" %c", &r);
+    return r;
+}
+
+int get_spot(int * show){
+    int row;
+    char col;
+    do {
+        row = get_row();
+        col = get_col();
+        //printf("%d : %d: %d\n", row, (int)col, show[row*SIZE+(col-65)]);
+    } while(((col < 65 || col > 65+SIZE) || (row < 0 || row > SIZE)) || show[row*SIZE+(col-65)] == 1);
+    //show[row*SIZE+(col-65)] = 1;
+    return row*SIZE+(col-65);
+}
+
+int do_flag(){
+    int r;
+    do {
+        printf("Flag: 1\n:Mine: 2\n");
+        scanf(" %d", &r);
+    } while(!(r==1||r==2||r==3||r==4));
+    return r;
+}
+
+int choice(int * mines, int * show, int * nums){
+    int spot = -1;
+    int other = -1;
+    int r;
+    do {
+        r = do_flag();
+        if (r == 2){
+            spot = get_spot(show);
+        }else if (r==3){
+            show_mines(mines);
+        }else if (r==4){
+            show_nums(nums, mines);
+        }else{
+            other = get_spot(show);
+            show[other] = -2;
+        }
+    } while((spot < 0 || spot >= SIZE*SIZE) || other==-1);
+    return spot;
+}
+
+int check_win(int * mines, int * show, int number_of_mines){
+    int count=0;
+    int res = 1;
+    for (int i = 0; i < SIZE*SIZE; i++) {
+        if (mines[i] == 1 && show[i] == -2){
+            count++;
+        }
+    }
+    if (count == number_of_mines){
+        res = 0;
+    }
+    return res;
+}
+
+int main(){
+    system("clear");
+    srand(time(0));
+    int number_of_mines = 10;
+    printf("Number of Mines?\n");
+    scanf("%d", &number_of_mines);
+    printf("Size?\n");
+    scanf("%d", &SIZE);
+    int lose = 1, win = 1;
+    int choose;
+    int * mines = create_grid_mines(number_of_mines);
+    show_mines(mines);
+    int * nums = create_grid_numbers(mines);
+    show_nums(nums, mines);
+    int * show = create_grid_show();
+    show_show(show);
+    while (lose && win){
+        choose = choice(mines, show, nums);
+        if (choose != -1){
+            int * check = create_grid_show();
+            lose = update(mines, nums, show, check, choose, 0);
+            win = check_win(mines, show, number_of_mines);
+            free(check);
+        }
+        system("clear");
+        show_show(show);
+    }
+    if (!win){
+        printf("You win!");
+    }else if (!lose){
+        printf("You lose!\n");
+    }
+
+    free(mines);
+    free(nums);
+    free(show);
+    return 0;
+}

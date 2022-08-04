@@ -1,0 +1,111 @@
+/*! 
+  \file tp7.c
+  \author Samson Grice <gricemagic@cy-tech.fr>
+  \version 0.1
+  \date 12-12-21
+  \brief DESCRIPTION
+  \remarks REMARKS
+*/
+#include "tp7.h"
+
+/*! 
+  \fn enterInteger
+  \author Samson Grice <gricemagic@cy-tech.fr>
+  \version 0.1
+  \date 12-12-21
+  \brief DESCRIPTION
+  \param x of type int *
+*/
+void enterInteger(int * x){
+	int y;
+	do {
+		y = scanf("%d", x);
+	}while (!y);
+}
+
+/*! 
+  \fn printArray
+  \author Samson Grice <gricemagic@cy-tech.fr>
+  \version 0.1
+  \date 12-12-21
+  \brief DESCRIPTION
+  \param tab of type int *
+  \param n of type int
+*/
+void printArray(int * tab, int n) {
+	int * p;
+	for (p=tab;p<tab+n;p++) {
+		printf("%d ", *p);
+	}
+	printf("\n");
+}
+
+/*! 
+  \fn fillArray
+  \author Samson Grice <gricemagic@cy-tech.fr>
+  \version 0.1
+  \date 12-12-21
+  \brief DESCRIPTION
+  \param tab of type int *
+  \param n of type int
+  \param min of type int
+  \param max of type int
+*/
+void fillArray(int * tab, int n, int min, int max) {
+	int * p;
+	for (p=tab;p<tab+n;p++) {
+		*p = rand()%(max-min)+min;
+	}
+}
+
+/*! 
+  \fn main
+  \author Samson Grice <gricemagic@cy-tech.fr>
+  \version 0.1
+  \date 12-12-21
+  \brief main function
+  \return type int
+  \param argc of type int
+  \param argv of type char **
+*/
+int main(int argc, char ** argv) {
+    if (argv){
+        printf("%s\n", argc[argv-1]);
+        // stop warnings on Linux 
+    }
+	srand(time(0));
+	int n;
+	int max;
+	int min;
+	int choice;
+	printf("size of array: ");
+	enterInteger(&n);
+	printf("max value of array: ");
+	enterInteger(&max);
+	printf("min value of array: ");
+	enterInteger(&min);
+	printf("What sort: \n0 - Insertion\n1 - Fusion\n2 - Counting\n: ");
+	enterInteger(&choice);
+	int * p;
+	p = calloc(n, sizeof(int));
+	fillArray(p, n, min, max);
+	printArray(p, n);
+	switch (choice){
+		case 0:
+			insertSort(p, n);
+			printArray(p, n);
+			break;
+		case 1:
+			triFusion(p, n);
+			printArray(p, n);
+			break;
+		case 2:
+			triDenombrement(p, n);
+			printArray(p, n);
+			break;
+		default:
+			printf("not on list\n");
+			break;
+	}
+	return 0;
+}

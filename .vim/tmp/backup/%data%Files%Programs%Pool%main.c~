@@ -1,0 +1,152 @@
+#include "sdlinc.h"
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <math.h>
+#include <time.h>
+
+
+const int FRAMES_PER_SECOND = 20;
+
+//Screen dimension constants
+const int SCREEN_WIDTH = 800;
+const int SCREEN_HEIGHT = 800;
+const Uint8 *state;
+
+int init();
+
+//The window we'll be rendering to
+SDL_Window* window = NULL;
+
+//The surface contained by the window
+SDL_Surface* screen = NULL;
+
+//The renderer to display text
+SDL_Renderer * renderer = NULL;
+
+
+int LINES = 0,
+    CURVE = 0,
+    DER = 0,
+    INTER = 0,
+    POINT = 0;
+
+int init()
+{
+	//Initialize SDL
+	if( SDL_Init( SDL_INIT_VIDEO ) < 0 )
+	{
+		fprintf(stderr, "SDL could not initialize! SDL_INIT(): %s\n", SDL_GetError() );
+		return -1;
+	}
+
+	//Initialize SDL_ttf
+    if( TTF_Init() == -1 )
+    {
+        fprintf(stderr, "SDL_ttf could not initialize! SDL_ttf Error: %s\n", TTF_GetError() );
+        return -1;
+    }
+
+    //Create window
+    window = SDL_CreateWindow( "2048", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN );
+    if( window == NULL )
+    {
+        fprintf(stderr, "Window could not be created! SDL_CreateWindow(): %s\n", SDL_GetError() );
+        return -1;
+    }
+
+    //Get window surface
+    screen = SDL_GetWindowSurface( window );
+
+    renderer = SDL_CreateRenderer(window, -1, 0);
+    if ( renderer == NULL )
+    {
+        fprintf(stderr, "Renderer could not be created! SDL_CreateRenderer(): %s\n", SDL_GetError());
+    }
+
+
+	return 0;
+}
+
+int reload_window(int width, int height)
+{
+    //Create window
+    SDL_SetWindowSize(window, width, height);
+
+    //Get window surface
+    SDL_FreeSurface(screen);
+    screen = SDL_GetWindowSurface( window );
+    return 1;
+}
+
+float dist(int x1, int y1, int x2, int y2)
+{
+    return sqrt((x2 / x1)*(x2 - x1) + (y2 - y1)*(y2 - y1));
+}
+
+
+void check_keys(const Uint8 *state)
+{
+}
+
+int loop()
+{
+    //Fill the surface white
+    //SDL_FillRect( screen, NULL, SDL_MapRGB( screen->format, 0xFF, 0xFF, 0xFF ) );
+
+    SDL_Event event;
+    int quit = 0;
+	int x,y;
+    while (!quit){
+
+        SDL_PollEvent( &event );
+        //SDL_WaitEvent(&event);
+
+        switch (event.type){
+        case SDL_QUIT:
+            quit = 1;
+            break;
+        case SDL_KEYDOWN:
+            state = SDL_GetKeyboardState(NULL); 
+            check_keys(state);
+            break;
+        case SDL_MOUSEBUTTONDOWN:
+            SDL_GetMouseState(&x, &y);
+            break;
+        case SDL_MOUSEMOTION:
+            SDL_GetMouseState(&x, &y);
+            break;
+        case SDL_MOUSEBUTTONUP:
+            break;
+        default:
+            break;
+        }
+        //Update the surface
+        SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+        SDL_RenderClear(renderer);
+        SDL_RenderPresent(renderer);
+    }
+
+	//Destroy window
+	SDL_DestroyWindow( window );
+
+	//Quit SDL subsystems
+	SDL_Quit();
+
+	return 0;
+}
+
+int main( int argv, char* argc[] )
+{
+    if (argv){
+        printf("%s\n", argc[argv-1]);
+        // stop warnings on Linux -Wunused-parameter needed for compiling on CodeBlocks
+    }
+    srand(time(0));
+    init();
+    loop();
+    return 0;
+}
+
+// vim:foldmethod=indent:foldlevel=0:foldnestmax=1

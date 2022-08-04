@@ -1,0 +1,13 @@
+# Hello World
+
+### Compilation
+
+	$ make
+
+### Execution
+
+	$ ./Main
+
+### Generate Doxygen Files
+
+	$ make doc

@@ -1,0 +1,50 @@
+from math import sqrt
+import pyautogui as pag
+from PIL import Image
+
+MOVE = True
+
+def dist(x,y,z, r,g,b):
+	return sqrt((r-x)**2+(g-y)**2+(b-z)**2)
+
+pag.PAUSE = 0
+
+CANVAS = [(216, 228), (609, 519)]
+COLORS = [(95, 532), (357, 575)]
+COLORS_GRID = [11,2]
+COLORS_DX = (COLORS[1][0]-COLORS[0][0])/COLORS_GRID[0]
+COLORS_DY = (COLORS[1][1]-COLORS[0][1])/COLORS_GRID[1]
+PIXEL_SIZE = [5,5]
+
+colors = [(255,255,255),(200,200,200),(255,0,0),(255,100,0),(255,200,0),(0,255,0),(100,100,255),(0,0,255),(200,0,200)]
+
+IMAGE_SIZE = [CANVAS[1][0]-CANVAS[0][0], CANVAS[1][1]-CANVAS[0][1]]
+
+image = "/data/Images/skribbl.jpeg"
+
+img = Image.open(image)
+img = img.resize((round(IMAGE_SIZE[0]/PIXEL_SIZE[0]), round(IMAGE_SIZE[1]/PIXEL_SIZE[1])))
+
+
+color = [0,0]
+pixels = img.load()
+for x in range(img.size[0]):
+	for y in range(img.size[1]):
+		r,g,b = pixels[x, y]
+		d_min = 255**3
+		index = 0
+		i = 0
+		for i,c in enumerate(colors):
+			cr,cg,cb = c
+			d = dist(r,g,b, cr,cg,cb)
+			if d < d_min:
+				d_min = d
+				index = i
+		if index != color[0]:
+			color[0] = index
+			if MOVE:
+				pag.moveTo(COLORS[0][0] + index * COLORS_DX, COLORS[0][1])
+				pag.click()
+		if MOVE and color != [0,0]:
+			pag.moveTo(CANVAS[0][0]+x*PIXEL_SIZE[0], CANVAS[0][1]+y*PIXEL_SIZE[1])
+			pag.click()

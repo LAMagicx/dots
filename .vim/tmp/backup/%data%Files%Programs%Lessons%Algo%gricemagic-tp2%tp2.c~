@@ -1,0 +1,239 @@
+/*! 
+  \file tp2.c
+  \author Samson Grice <gricemagic@cy-tech.fr>
+  \version 0.1
+  \date 19-11-21
+  \brief tp2
+  \remarks None
+*/
+#include <stdio.h>
+
+/*! 
+  \fn EX1
+  \author Samson Grice <gricemagic@cy-tech.fr>
+  \version 0.1
+  \date 19-11-21
+  \brief EX1
+*/
+void EX1() { 
+	// EX1 enter a number
+	int x;
+	printf("enter an integer: ");
+	scanf("%d", &x);
+	printf("The number you entered was %d\n", x);
+}
+
+/*! 
+  \fn EX2
+  \author Samson Grice <gricemagic@cy-tech.fr>
+  \version 0.1
+  \date 19-11-21
+  \brief DESCRIPTION
+*/
+void EX2() {
+	// EX2
+	printf("no program for EX2\n");
+}
+
+/*! 
+  \fn EX3
+  \author Samson Grice <gricemagic@cy-tech.fr>
+  \version 0.1
+  \date 19-11-21
+  \brief EX3
+  \return type void 
+*/
+void  EX3() {
+	// EX3
+	int a,b;
+	printf("enter a, an integer: ");
+	scanf("%d", &a);
+	printf("enter b, an integer: ");
+	scanf("%d", &b);
+	printf("The numbers you entered were %d and %d\n", a, b);
+}
+
+/*! 
+  \fn EX4
+  \author Samson Grice <gricemagic@cy-tech.fr>
+  \version 0.1
+  \date 19-11-21
+  \brief EX4
+  \return type void 
+*/
+void  EX4() {
+	// EX4
+	char surname[50];
+	char name[50];
+	char bday[12];
+	char temp;
+	printf("Enter your surname: ");
+	scanf("%s", surname);
+	printf("Enter your name: ");
+	scanf("%s", name);
+	printf("Enter your b-day: ");
+	scanf("%c",&temp); // temp statement to clear buffer
+	scanf("%[^\n]", bday);
+	printf("Here is the info that you entered:\nSurname : %s\nName : %s\nBirthday : %s\n", surname, name, bday);
+}
+
+/*! 
+  \fn EX5
+  \author Samson Grice <gricemagic@cy-tech.fr>
+  \version 0.1
+  \date 19-11-21
+  \brief EX5
+  \return type void 
+*/
+void  EX5() {
+	// EX5
+	int n;
+	int d;
+	printf("Please enter the numerator: ");
+	scanf("%d", &n);
+	printf("Please enter the denomateur: ");
+	scanf("%d", &d);
+	if ( d != 0 ) {
+		printf("%d / %d = %f\n", n, d, (float)n/(float)d);
+	}else{
+		printf("division by 0\n");
+	}
+}
+
+/*! 
+  \fn EX6
+  \author Samson Grice <gricemagic@cy-tech.fr>
+  \version 0.1
+  \date 19-11-21
+  \brief EX6
+*/
+void EX6() { 
+	// EX6 
+	int A;
+	int B;
+	printf("A : ");
+	scanf("%d", &A);
+	printf("B : ");
+	scanf("%d", &B);
+	if ( (A < 0) == (B < 0 ) ) {
+		printf("poduct is positive\n");
+	} else {
+		printf("poduct is negative\n");
+	}
+}
+
+/*! 
+  \fn EX7
+  \author Samson Grice <gricemagic@cy-tech.fr>
+  \version 0.1
+  \date 19-11-21
+  \brief EX7
+  \return type void 
+*/
+void  EX7() {
+	// EX7
+	
+	int min;
+	int hour;
+	printf("Enter the hour: ");	
+	scanf("%d", &hour);
+	printf("Enter the minute: ");	
+	scanf("%d", &min);
+	printf("In one minute it will be %d:%d\n", (hour+1 >= 24)?0:hour+1,(min+1 >= 60)?0:min+1);
+}
+
+/*! 
+  \fn EX8
+  \author Samson Grice <gricemagic@cy-tech.fr>
+  \version 0.1
+  \date 19-11-21
+  \brief EX8
+  \return type void 
+*/
+void  EX8() {
+	// EX8
+	int n;
+	int i;
+	printf("Enter n: ");	
+	scanf("%d", &n);
+	for (i = n; i > 0; i--) {
+		printf("%d\n", i);
+	}
+
+}
+
+/*! 
+  \fn EX9
+  \author Samson Grice <gricemagic@cy-tech.fr>
+  \version 0.1
+  \date 19-11-21
+  \brief EX9
+  \return type void 
+*/
+void  EX9() {
+	// EX9
+	int n;
+	int i;
+	printf("Enter n: ");	
+	scanf("%d", &n);
+	i = n;
+	while (i > 0) {
+		printf("%d\n", i);
+		i--;
+	}
+}
+
+
+/*! 
+  \fn main
+  \author Samson Grice <gricemagic@cy-tech.fr>
+  \version 0.1
+  \date 19-11-21
+  \brief main function
+  \return type int
+  \param argc of type int
+  \param argv of type char **
+*/
+int main(int argc, char ** argv) {
+    if (argv) {
+        printf("%s\n", argc[argv-1]);
+        // stop warnings on Linux 
+    }
+
+	int x;
+	printf("Please enter what exercise you want to do: ");
+	scanf("%d", &x);
+	switch (x) {
+		case 1:
+			EX1();
+			break;
+		case 2:
+			EX2();
+			break;
+		case 3:
+			EX3();
+			break;
+		case 4:
+			EX4();
+			break;
+		case 5:
+			EX5();
+			break;
+		case 6:
+			EX6();
+			break;
+		case 7:
+			EX7();
+			break;
+		case 8:
+			EX8();
+			break;
+		case 9:
+			EX9();
+			break;
+		default:
+			printf("no exercise for %d\n", x);
+			break;
+	}
+	return 0;
+}

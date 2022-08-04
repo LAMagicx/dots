@@ -1,4 +1,5 @@
 ## Alias section 
+alias cp="cp -i"                                                                                # Confirm before overwriting something
 alias df='df -h'                                                                                # Human-readable sizes
 alias free='free -m'                                                                            # Show sizes in MB
 alias gitu='git add . && git commit && git push'                                                # master git thingy
@@ -39,7 +40,7 @@ alias gb='setxkbmap gb'                                                         
 alias swifi='nmcli device wifi list'                                                            # show availble wifis
 alias cwifi='nmcli device wifi connect'                                                         # connect to wifi
 #alias sp='~/sp'                                                                      # spoitfy client
-alias lock='lock 3 10'                                                                          # lock screen
+alias lock='betterlockscreen -l dim -- --layout-pos="ix-1000:iy+1000"'                                                                          # lock screen
 alias sbms='sudo systemctl start smb nmb'                                                       # start samba server 
 alias suspend='sudo /usr/lib/systemd/systemd-sleep suspend'                                     # suspend the system
 alias sscrot="scrot '%d-%m_capture.png' -sfz -e 'python ~/Pictures/imager.py %d-%m_capture.png'" # scrot image mover + renamer
@@ -71,4 +72,5 @@ alias ctags="ctags -R"
 alias sexy="echo 'who | grep -i blonde | date; cd ~; unzip; \n touch; strip; finger; mount; gasp; yes \n  uptime; umount; sleep'"
 alias mon="xinput enable 14"
 alias moff="xinput disable 14"
-alias match="grep -nrw '.' -e "
+alias changebg="cd ~/Gits/Mine/background-quote-genereator; ./script.py"
+alias yolo='git add -A; git commit -m "$(curl -s http://whatthecommit.com/index.txt)"; git push'

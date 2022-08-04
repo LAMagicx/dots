@@ -1,0 +1,26 @@
+<style>
+body {
+	padding: 0;
+	margin: 0;
+	background-color: {COLOR};
+	color: #eee;
+}
+div {
+	font-family: monospace;
+	width: 800px;
+	min-height: 400px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	font-size: 2em;
+	transform: translate(-50%, -50%);
+}
+
+</style>
+
+<body>
+	<div>
+		<h1>{QUOTE}</h1>
+		<h4>{AUTHOR}</h4>
+	</div>
+</body>

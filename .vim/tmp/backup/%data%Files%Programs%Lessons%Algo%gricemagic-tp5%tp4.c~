@@ -1,0 +1,125 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <limits.h>
+#define N 6
+
+void invert(int * tab) {
+	int * left = tab;
+	int * right = (tab + N - 1);
+	while (left < right) {
+    	*left    ^= *right;
+        *right   ^= *left;
+        *left    ^= *right;
+		left++;
+		right--;
+	}
+}
+
+void sum(int * tab, int * s){
+	int * p;
+	*s = 0;
+	for (p = tab; p < tab+N; p++) {
+		*s += *p;
+	}
+}
+
+void traversable(int * tab, int * t) {
+	int index;
+	int res;
+	index = 0;
+	res  = 1;
+	*t = 0;
+	int i;
+	i = 0;
+
+	while (res == 1 && i < N) {
+		if (index == N-1) {
+			res = 2;
+			*t = 1;
+		}else if (index > N || index < 0) {
+			res = 0;
+			*t = 0;
+		}else{
+			index += *(tab+index);
+		}
+		i++;
+	}
+}
+
+int palindrome(int * tab) {
+	int res;
+	res = 1;
+	int * left = tab;
+	int * right = (tab + N - 1);
+	while (left < right && res) {
+		if (*left != *right)
+			res = 0;
+		left++;
+		right--;
+	}
+	return res;
+}
+
+
+int main(int argc, char ** argv) {
+    if (argv){
+        printf("%s\n", argc[argv-1]);
+        // stop warnings on Linux
+    }
+
+	int * tab = malloc(sizeof(int) * N);
+	/*
+	for (int * p = tab; p < tab+N; p++) {
+		*p = rand()%100;
+	}
+	*/
+
+	// traversable
+	tab[0] = 3;
+	tab[1] = 7;
+	tab[2] = 2;
+	tab[3] = -1;
+	tab[4] = 1;
+	tab[5] = 9;
+	/*
+	// palindromic
+	tab[0] = 3;
+	tab[1] = 3;
+	tab[2] = 3;
+	tab[3] = 3;
+	tab[4] = 3;
+	tab[5] = 3;
+	*/
+	tab[0] = 3;
+	tab[1] = 3;
+	tab[2] = 3;
+	tab[3] = -3;
+	tab[4] = 3;
+	tab[5] = 3;
+
+	for (int * p = tab; p < tab+N; p++) {
+		printf("%d ", *p);
+	}
+	printf("\n");
+	invert(tab);
+
+	for (int * p = tab; p < tab+N; p++) {
+		printf("%d ", *p);
+	}
+	printf("\n");
+
+	int s;
+	sum(tab, &s);
+	printf("sum : %d\n",s);
+
+	invert(tab);
+
+	int t;
+	traversable(tab, &t);
+	printf("traversable: %d\n", t);
+	int p;
+	p = palindrome(tab);
+	printf("palindromic: %d\n", p);
+
+	return 0;
+}
