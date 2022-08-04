@@ -52,7 +52,7 @@ local theme_path = string.format("%s/.config/awesome/themes/%s/theme.lua", os.ge
 beautiful.init(theme_path)
 
 floating_terminal = "kitty --class=floating --config /home/magic/.config/kitty/no-opacity.conf"
-terminal = "kitty"
+terminal = "alacritty"
 editor = os.getenv("EDITOR") or "vim"
 browser = "firefox"
 browser2 = "chromium"
