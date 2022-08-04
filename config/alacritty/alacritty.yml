@@ -9,7 +9,7 @@ window:
     x: 5
     y: 5
   decorations: none
-  opacity: 0.8
+  opacity: 1
   startup_mode: Windowed
   title: Alacritty
   dynamic_title: true
@@ -25,22 +25,24 @@ window:
 # Fira Code
 # Source Code Pro
 # Space Mono with -3 y offset
+# SpaceMono Nerd Font Mono
 font:
   normal:
-    family: Jet Brains Mono
+    family: Space Mono Nerd Font
     style: Regular
   bold:
-    family: Jet Brains Mono
+    family: Space Mono Nerd Font
+    style: Regular
     style: Bold
   italic:
-    family: Jet Brains Mono
+    family: Space Mono Nerd Font
     style: Italic
   bold_italic:
-    family: Jet Brains Mono
-  size: 8.0
+    family: Space Mono Nerd Font
+  size: 13.0
   offset:
     x: 0
-    y: 0
+    y: -4
 draw_bold_text_with_bright_colors: true
 
 # Color Schemes
@@ -70,10 +72,12 @@ mouse:
 # Key binds
 
 key_bindings:
-    - { key: F,         mods: Control|Shift,    mode: ~Vi,  command: {program: " /home/magic/.config/alacritty/theme_switcher.py "}}
+    - { key: F,         mods: Control|Shift,    mode: ~Vi,  command: {program: "/home/cytech/.config/alacritty/switch_theme.py"}}
     - { key: Equals,    mods: Control,          action: IncreaseFontSize }
     - { key: Plus,      mods: Control|Shift,    action: DecreaseFontSize }
-    - { key: N,         mods: Super,          action: SpawnNewInstance }
+    - { key: N,         mods: Super,            action: SpawnNewInstance }
+    - { key: Return,    mods: Shift,   chars: "\x1b[13;2u" }
+    - { key: Return,    mods: Control, chars: "\x1b[13;5u" }
 
 
 #debug:

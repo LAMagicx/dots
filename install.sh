@@ -1,11 +1,28 @@
 #!/bin/bash
 
-if [ $# -eq 1 ]
+SCRIPT_PATH="$( cd -- "$(dirname "$0")" > /dev/null 2>&1 ; pwd -P )"
+
+ln -sfv "$SCRIPT_PATH/.color_files.py" ~/.color_files.py
+
+ln -sfv "$SCRIPT_PATH/.vimrc" ~/.vimrc
+
+ln -sfv "$SCRIPT_PATH/.vim" ~/.vim
+
+ln -sfv "$SCRIPT_PATH/.zshrc" ~/.zshrc
+
+ln -sfv "$SCRIPT_PATH/.zsh" ~/.zsh
+
+ln -sfv "$SCRIPT_PATH/.zsh_files" ~/.zsh_files
+
+if [ ! -d ~/.config ]
 then
-	if [ $1 == "upload" ]
-	then
-		rsync -av --exclude="cache/" --exclude="tmp/" --exclude="bundle/" --exclude=".*/" ~/.zsh* ~/.vim* ~/.color_files.py ~/Gits/Mine/dots/ 
-	fi
-else
-	rsync -av --exclude="cache/" --exclude="tmp/" --exclude="bundle/" --exclude=".*/" ~/Gits/Mine/dots/.zsh* ~/Gits/Mine/dots/.vim* ~/Gits/Mine/dots/.color_files.py ~
+	mkdir ~/.config
 fi
+
+configs=( "alacritty" "awesome" "htop" "kitty" "picom" "redshift" "zathura" "min" )
+
+for c in "${configs[@]}"
+do
+	rm -rf ~/.config/$c
+	ln -svf "$SCRIPT_PATH/config/$c" ~/.config/$c
+done

@@ -1,5 +1,4 @@
 ## Alias section 
-alias cp="cp -i"                                                                                # Confirm before overwriting something
 alias df='df -h'                                                                                # Human-readable sizes
 alias free='free -m'                                                                            # Show sizes in MB
 alias gitu='git add . && git commit && git push'                                                # master git thingy
@@ -72,5 +71,4 @@ alias ctags="ctags -R"
 alias sexy="echo 'who | grep -i blonde | date; cd ~; unzip; \n touch; strip; finger; mount; gasp; yes \n  uptime; umount; sleep'"
 alias mon="xinput enable 14"
 alias moff="xinput disable 14"
-
-
+alias match="grep -nrw '.' -e "
