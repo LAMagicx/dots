@@ -1,4 +1,0 @@
-#!/bin/sh
-n=$(xinput list | grep -oP "Touchpad.*?id=(\d+)" | grep -oP "\d+")
-xinput enable $n
-unset $n

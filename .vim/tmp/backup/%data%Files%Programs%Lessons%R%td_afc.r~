@@ -1,2 +1,0 @@
-data = read.table("noble.txt", header=T)
-chisq.test(data)
