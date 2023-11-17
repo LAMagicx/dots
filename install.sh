@@ -19,7 +19,7 @@ then
 	mkdir ~/.config
 fi
 
-configs=( "alacritty" "awesome" "htop" "kitty" "picom" "redshift" "zathura" "min" )
+configs=( "htop" )
 
 for c in "${configs[@]}"
 do

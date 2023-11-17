@@ -36,13 +36,6 @@ compinit
 
 export EDITOR=vim
 
-alias ls='ls -l --color=auto --group-directories-first'
-alias lsa='ls -la --color=auto'
-alias cls='clear && neofetch'
-alias clsa='clear && source ~/.zshrc'
-alias pacin='sudo pacman -S'
-alias rc='vim ~/.config/awesome/rc.lua'
-
 set -o vi
 
 
@@ -79,7 +72,7 @@ zmodload zsh/terminfo
 LS_COLORS=$(python ~/.color_files.py)
 export LS_COLORS
 
-neofetch
+# neofetch
 
 setopt AUTO_PUSHD           # Push the current dir to stack
 setopt PUSHD_IGNORE_DUPS    # dont store duplicates
@@ -90,11 +83,46 @@ for index ({1..9}) alias "$index"="cd +${index}"; unset index
 
 fpath=(~/Gits/zsh-completions/src $fpath)
 
-export PATH=/home/cytech/.local/bin:$PATH
+export PATH=/bin:/usr/local/bin:$HOME/.local/bin:$PATH
 source ~/.zsh/bd.zsh
 #source /mnt/AWE~/Gits/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 #[ -f "~/.ghcup/env" ] && source "~/.ghcup/env" # ghcup-env
 [ -f "~/.ghcup/env" ] && source "~/.ghcup/env" # ghcup-env
 
-export PNPM_HOME="/home/cytech/.local/share/pnpm"
+export PNPM_HOME="~/.local/share/pnpm"
 export PATH="$PNPM_HOME:$PATH"
+export PYTHON_KEYRING_BACKEND=keyring.backends.null.Keyring
+
+[ -f /opt/anaconda/etc/profile.d/conda.sh ] && source /opt/anaconda/etc/profile.d/conda.sh
+
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/mnt/data/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/mnt/data/Downloads/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/mnt/data/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/mnt/data/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
+
+# echo "Pau'se > BDE"
+
+export PATH="$HOME/.cargo/bin:$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+
+export GOPATH="$HOME/.local/lib/go/"
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/usr/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/usr/etc/profile.d/conda.sh" ]; then
+        . "/usr/etc/profile.d/conda.sh"
+    else
+        export PATH="/usr/bin:$PATH"
+    fi
+fi
+
+source ~/.zsh_files/api_keys.zsh
+
+unset __conda_setup
+# <<< conda initialize <<<
+
