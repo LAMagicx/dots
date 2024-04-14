@@ -65,6 +65,11 @@
 	hi Normal guibg=NONE ctermbg=NONE
 " }}}
 
+" Typing Highlight Python {{{
+	autocmd Filetype python syntax keyword Type List DataFrame Interator Tuple
+	autocmd Filetype python syntax keyword Type Int8 Int16 Int32 Int64 Float32 Float64 Utf8
+" }}}
+
 " StatusBar {{{
 	"clear status line
 	set statusline=
@@ -107,7 +112,7 @@ endfunction
 	autocmd Filetype html set foldmethod=manual
 	autocmd Filetype javascript setlocal omnifunc=javascriptcomplete#CompleteTags
 	autocmd Filetype css setlocal omnifunc=csscomplete#CompleteTags
-	autocmd Filetype python setlocal omnifunc=pythoncomplete#CompleteTags
+	autocmd Filetype python setlocal omnifunc=python3complete#CompleteTags
 	autocmd Filetype c setlocal omnifunc=ccomplete#CompleteTags
 	autocmd Filetype php setlocal omnifunc=phpcomplete#CompletePHP
 	" autocmd Filetype java setlocal omnifunc=javacomplete#CompleteTags
@@ -119,7 +124,7 @@ endfunction
 	autocmd Filetype haskell set shiftwidth=2
 	autocmd Filetype haskell set tabstop=2
 	autocmd Filetype haskell set expandtab
-	autocmd Filetype python nnoremap <f5> :w <cr>:!clear <cr>:!python3 -i % <cr>
+	autocmd Filetype python nnoremap <f5> :w <cr>:!clear <cr>:!ipython -i % <cr>
 	autocmd Filetype haskell nnoremap <f5> :w <cr>:!clear <cr>:!runhaskell % <cr>
 	autocmd Filetype php nnoremap <f5> :w <cr>:!clear <cr>:!php -a -d auto_prepend_file=% <cr>
 	autocmd Filetype c nnoremap <f5> :w <cr>:!clear <cr>:!make && ./run<cr>
@@ -229,7 +234,7 @@ au VimLeave * silent !xmodmap -e 'clear Lock' -e 'keycode 0x42 = Caps_Lock'
 	nnoremap <c-t><c-r> <c-w>}
 	" closes preview tag
 	nnoremap <c-t><c-f> <c-w><c-z>
-	nnoremap <c-l> :!pandoc % -o out.pdf<cr><cr>
+	" nnoremap <c-l> :!pandoc % -o out.pdf<cr><cr>
 
 	imap <c-d> jk[s1z=wi
 

@@ -36,8 +36,8 @@ compinit
 
 export EDITOR=vim
 
-alias ls='ls -l --color=auto --group-directories-first'
-alias lsa='ls -la --color=auto'
+# alias ls='ls - --color=auto --group-directories-first'
+# alias lsa='ls -la --color=auto'
 alias cls='clear && neofetch'
 alias clsa='clear && source ~/.zshrc'
 alias pacin='sudo pacman -S'
@@ -67,6 +67,7 @@ export LESS_TERMCAP_us=$'\E[01;36m'
 export LESS=-r
 
 source ~/.zsh_files/sources.zsh
+source ~/.zsh_files/api_keys.zsh
 # bind UP and DOWN arrow keys to history substring search
 # adds error if moved ?>
 zmodload zsh/terminfo
@@ -90,7 +91,7 @@ for index ({1..9}) alias "$index"="cd +${index}"; unset index
 
 fpath=(~/Gits/zsh-completions/src $fpath)
 
-export PATH=/home/cytech/.local/bin:$PATH
+export PATH=$HOME/.local/bin:$PATH
 source ~/.zsh/bd.zsh
 #source /mnt/AWE~/Gits/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 #[ -f "~/.ghcup/env" ] && source "~/.ghcup/env" # ghcup-env
@@ -98,3 +99,12 @@ source ~/.zsh/bd.zsh
 
 export PNPM_HOME="/home/cytech/.local/share/pnpm"
 export PATH="$PNPM_HOME:$PATH"
+
+export PYENV_ROOT="$HOME/.pyenv"
+[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+
+export PYTHONDONTWRITEBYTECODE=1
+
+fpath+=~/.zsh_files
+autoload -Uz compinit && compinit
